@@ -1,11 +1,13 @@
 using System;
+using System.Linq;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SpotifyMatchmaker.Models;
 
-namespace Company.Function
+namespace SpotifyMatchmaker.Service
 {
     public static class QueueTriggerCSharp
     {
@@ -20,10 +22,16 @@ namespace Company.Function
 
             string party_code = jToken.ToString();
 
+            Party party = JsonConvert.DeserializeObject<Party>(myQueueItem);
+
+            ;
+
+
             //take the party code and go to Azure Cosmos DB to lookup the party
 
             //grab spotify tokens from Cosmos DB and snoop through their music collections
             ;
         }
+    
     }
 }

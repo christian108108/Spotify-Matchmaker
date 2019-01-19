@@ -4,9 +4,9 @@
 //
 //    using QuickType;
 //
-//    var welcome = Welcome.FromJson(jsonString);
+//    var party = Party.FromJson(jsonString);
 
-namespace Models
+namespace SpotifyMatchmaker.Models
 {
     using System;
     using System.Collections.Generic;
@@ -38,12 +38,12 @@ namespace Models
 
     public partial class Welcome
     {
-        public static Welcome FromJson(string json) => JsonConvert.DeserializeObject<Welcome>(json, QuickType.Converter.Settings);
+        public static Welcome FromJson(string json) => JsonConvert.DeserializeObject<Welcome>(json, SpotifyMatchmaker.Models.Converter.Settings);
     }
 
     public static class Serialize
     {
-        public static string ToJson(this Welcome self) => JsonConvert.SerializeObject(self, QuickType.Converter.Settings);
+        public static string ToJson(this Welcome self) => JsonConvert.SerializeObject(self, SpotifyMatchmaker.Models.Converter.Settings);
     }
 
     internal static class Converter
