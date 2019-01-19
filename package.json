@@ -19,7 +19,9 @@
   "dependencies": {
     "@types/react": "^16.7.20",
     "@types/react-dom": "^16.0.11",
+    "http-server": "^0.11.1",
     "react": "^16.7.0",
+    "react-animated-css": "^1.0.4",
     "react-dom": "^16.7.0"
   },
   "devDependencies": {

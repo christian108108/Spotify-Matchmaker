@@ -1,13 +1,17 @@
 import * as React from "react";
-
+import {Animated} from "react-animated-css";
 export interface HelloProps { 
-    compiler: string; framework: string; 
+    greeting: string
 }
 
 // 'HelloProps' describes the shape of props.
 // State is never set so we use the '{}' type.
 export class Hello extends React.Component<HelloProps, {}> {
     render() {
-        return <h1>Hello from {this.props.compiler} and {this.props.framework}!</h1>;
+        const WelcomeCSS:any = {
+            fontSize: "35px",
+            alignSelf: "center",
+        };
+        return <h1 style={WelcomeCSS}>{this.props.greeting}</h1>
     }
 }
