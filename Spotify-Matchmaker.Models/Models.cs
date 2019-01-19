@@ -17,21 +17,45 @@ namespace SpotifyMatchmaker.Models
 
     public partial class Party
     {
+        /// <summary>
+        /// Unique party code to pair friends together
+        /// </summary>
+        /// <value></value>
         [JsonProperty("party_code")]
         public string PartyCode { get; set; }
 
+        /// <summary>
+        /// The host's Spotify access token
+        /// </summary>
+        /// <value></value>
         [JsonProperty("host")]
         public string Host { get; set; }
 
+        /// <summary>
+        /// Spotift access token for person #2
+        /// </summary>
+        /// <value></value>
         [JsonProperty("person2")]
         public string Person2 { get; set; }
 
+        /// <summary>
+        /// Spotify access token for person #3
+        /// </summary>
+        /// <value></value>
         [JsonProperty("person3")]
         public string Person3 { get; set; }
 
+        /// <summary>
+        /// Spotify access token for person #4
+        /// </summary>
+        /// <value></value>
         [JsonProperty("person4")]
         public string Person4 { get; set; }
 
+        /// <summary>
+        /// Spotify access token for person #5
+        /// </summary>
+        /// <value></value>
         [JsonProperty("person5")]
         public string Person5 { get; set; }
     }
