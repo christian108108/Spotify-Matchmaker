@@ -1,0 +1,11 @@
+/Users/stark/StarkDev/Spotify-Matchmaker/Sandbox/bin/Debug/netcoreapp2.1/Sandbox.deps.json
+/Users/stark/StarkDev/Spotify-Matchmaker/Sandbox/bin/Debug/netcoreapp2.1/Sandbox.runtimeconfig.json
+/Users/stark/StarkDev/Spotify-Matchmaker/Sandbox/bin/Debug/netcoreapp2.1/Sandbox.runtimeconfig.dev.json
+/Users/stark/StarkDev/Spotify-Matchmaker/Sandbox/bin/Debug/netcoreapp2.1/Sandbox.dll
+/Users/stark/StarkDev/Spotify-Matchmaker/Sandbox/bin/Debug/netcoreapp2.1/Sandbox.pdb
+/Users/stark/StarkDev/Spotify-Matchmaker/Sandbox/obj/Debug/netcoreapp2.1/Sandbox.csprojAssemblyReference.cache
+/Users/stark/StarkDev/Spotify-Matchmaker/Sandbox/obj/Debug/netcoreapp2.1/Sandbox.csproj.CoreCompileInputs.cache
+/Users/stark/StarkDev/Spotify-Matchmaker/Sandbox/obj/Debug/netcoreapp2.1/Sandbox.AssemblyInfoInputs.cache
+/Users/stark/StarkDev/Spotify-Matchmaker/Sandbox/obj/Debug/netcoreapp2.1/Sandbox.AssemblyInfo.cs
+/Users/stark/StarkDev/Spotify-Matchmaker/Sandbox/obj/Debug/netcoreapp2.1/Sandbox.dll
+/Users/stark/StarkDev/Spotify-Matchmaker/Sandbox/obj/Debug/netcoreapp2.1/Sandbox.pdb
