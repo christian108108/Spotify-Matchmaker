@@ -234,11 +234,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\Christian\\Documents\\SwampHacks\\Spotify-Matchmaker\\Models\\Models.csproj",
+      "projectUniqueName": "C:\\Users\\Christian\\Documents\\SwampHacks\\Spotify-Matchmaker\\Spotify-Matchmaker.Models\\Models.csproj",
       "projectName": "Models",
-      "projectPath": "c:\\Users\\Christian\\Documents\\SwampHacks\\Spotify-Matchmaker\\Models\\Models.csproj",
+      "projectPath": "C:\\Users\\Christian\\Documents\\SwampHacks\\Spotify-Matchmaker\\Spotify-Matchmaker.Models\\Models.csproj",
       "packagesPath": "C:\\Users\\Christian\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\Christian\\Documents\\SwampHacks\\Spotify-Matchmaker\\Models\\obj\\",
+      "outputPath": "C:\\Users\\Christian\\Documents\\SwampHacks\\Spotify-Matchmaker\\Spotify-Matchmaker.Models\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

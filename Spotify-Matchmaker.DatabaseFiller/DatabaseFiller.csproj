@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Models\Models.csproj" />
+    <ProjectReference Include="..\Spotify-Matchmaker.Models\Models.csproj" />
   </ItemGroup>
 
   <ItemGroup>

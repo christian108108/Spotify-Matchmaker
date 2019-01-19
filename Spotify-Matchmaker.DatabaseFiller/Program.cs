@@ -24,6 +24,8 @@ namespace DatabaseFiller
                 ;
             }
 
+            ;
+
             //open file stream
             using (StreamWriter file = File.CreateText(@"testParties.json"))
             {

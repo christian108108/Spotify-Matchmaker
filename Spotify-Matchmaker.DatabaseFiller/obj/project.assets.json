@@ -742,8 +742,8 @@
     },
     "Models/1.0.0": {
       "type": "project",
-      "path": "../Models/Models.csproj",
-      "msbuildProject": "../Models/Models.csproj"
+      "path": "../Spotify-Matchmaker.Models/Models.csproj",
+      "msbuildProject": "../Spotify-Matchmaker.Models/Models.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -760,11 +760,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\Christian\\Documents\\SwampHacks\\Spotify-Matchmaker\\DatabaseFiller\\DatabaseFiller.csproj",
+      "projectUniqueName": "C:\\Users\\Christian\\Documents\\SwampHacks\\Spotify-Matchmaker\\Spotify-Matchmaker.DatabaseFiller\\DatabaseFiller.csproj",
       "projectName": "DatabaseFiller",
-      "projectPath": "c:\\Users\\Christian\\Documents\\SwampHacks\\Spotify-Matchmaker\\DatabaseFiller\\DatabaseFiller.csproj",
+      "projectPath": "C:\\Users\\Christian\\Documents\\SwampHacks\\Spotify-Matchmaker\\Spotify-Matchmaker.DatabaseFiller\\DatabaseFiller.csproj",
       "packagesPath": "C:\\Users\\Christian\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\Christian\\Documents\\SwampHacks\\Spotify-Matchmaker\\DatabaseFiller\\obj\\",
+      "outputPath": "C:\\Users\\Christian\\Documents\\SwampHacks\\Spotify-Matchmaker\\Spotify-Matchmaker.DatabaseFiller\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -783,8 +783,8 @@
       "frameworks": {
         "netcoreapp2.2": {
           "projectReferences": {
-            "c:\\Users\\Christian\\Documents\\SwampHacks\\Spotify-Matchmaker\\Models\\Models.csproj": {
-              "projectPath": "c:\\Users\\Christian\\Documents\\SwampHacks\\Spotify-Matchmaker\\Models\\Models.csproj"
+            "C:\\Users\\Christian\\Documents\\SwampHacks\\Spotify-Matchmaker\\Spotify-Matchmaker.Models\\Models.csproj": {
+              "projectPath": "C:\\Users\\Christian\\Documents\\SwampHacks\\Spotify-Matchmaker\\Spotify-Matchmaker.Models\\Models.csproj"
             }
           }
         }
