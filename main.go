@@ -2,6 +2,7 @@ package main
 
 import (
 	b64 "encoding/base64"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"html/template"
@@ -9,6 +10,12 @@ import (
 
 	"github.com/gorilla/mux"
 )
+
+type Object struct {
+	token     string
+	client_id string
+	partyCode string
+}
 
 const (
 	clientID       = "475b4f5384194becb712ad90112be788"
@@ -67,7 +74,17 @@ func callback(w http.ResponseWriter, r *http.Request) {
 		panic("Error calling endpoint. Try again")
 	} else {
 		accseToke := res.Header.Get("StatusCode")
+		object := Object{
+			token:     accseToke,
+			client_id: clientID,
+			partyCode: "",
+		}
+		err = json.NewEncoder(w).Encode(&object)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			panic("error while encoding object")
+		}
+		fmt.Println(object)
 		fmt.Println(accseToke)
 	}
-
 }
