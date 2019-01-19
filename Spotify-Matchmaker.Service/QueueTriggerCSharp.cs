@@ -19,6 +19,10 @@ namespace Company.Function
             var jToken = jObject.GetValue("party_code");
 
             string party_code = jToken.ToString();
+
+            //take the party code and go to Azure Cosmos DB to lookup the party
+
+            //grab spotify tokens from Cosmos DB and snoop through their music collections
             ;
         }
     }
