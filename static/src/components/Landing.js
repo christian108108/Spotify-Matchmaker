@@ -28,8 +28,8 @@ class Landing extends React.Component {
           <h1>Aux are us</h1>
           <p className='tagline'>Something catchy goes here</p>
           <Modal show={this.state.show} handleClose={this.hideModal}>
-            <p>Modal</p>
-            <p>Data</p>
+            <button type="button" className='btn'>Yes</button>
+            <button type="button" className='btn'>No</button>
           </Modal>
           <button type="button" className='btn landing-btn' onClick={this.showModal}>Let's get started</button>
         </div>
