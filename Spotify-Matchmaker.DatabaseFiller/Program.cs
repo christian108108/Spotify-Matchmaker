@@ -9,6 +9,11 @@ namespace DatabaseFiller
 {
     class Program
     {
+
+        /// <summary>
+        /// Randomly generates and saves 100 entries of Party entities as JSON
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
