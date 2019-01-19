@@ -207,6 +207,16 @@
         "build": {
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
+      },
+      "Sandbox.Library/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "compile": {
+          "bin/placeholder/Sandbox.Library.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Sandbox.Library.dll": {}
+        }
       }
     }
   },
@@ -678,11 +688,17 @@
         "netstandard.library.2.0.3.nupkg.sha512",
         "netstandard.library.nuspec"
       ]
+    },
+    "Sandbox.Library/1.0.0": {
+      "type": "project",
+      "path": "../Sandbox.Library/Sandbox.Library.csproj",
+      "msbuildProject": "../Sandbox.Library/Sandbox.Library.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.2": [
-      "Microsoft.NETCore.App >= 2.2.0"
+      "Microsoft.NETCore.App >= 2.2.0",
+      "Sandbox.Library >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -714,7 +730,11 @@
       },
       "frameworks": {
         "netcoreapp2.2": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Christian\\Documents\\SwampHacks\\Spotify-Matchmaker\\Sandbox.Library\\Sandbox.Library.csproj": {
+              "projectPath": "C:\\Users\\Christian\\Documents\\SwampHacks\\Spotify-Matchmaker\\Sandbox.Library\\Sandbox.Library.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
