@@ -4,6 +4,7 @@ require('./Landing.css')
 
 var Modal = require('./Modal')
 
+
 class Landing extends React.Component {
   constructor(props) {
     super();
@@ -26,14 +27,9 @@ class Landing extends React.Component {
       <section className="hero is-fullheight">
         <div className="hero-body">
           <div className="container">
-            <h1 className="title is-1">Aux Are Us</h1>
-            <h5 className='subtitle '>Something catchy goes here</h5>
-            <Modal show={this.state.show} handleClose={this.hideModal}>
-              <div className='buttons'>
-                <button type="button" className='button is-primary is-large'>Yes</button>
-                <button type="button" className='button is-danger is-large'>No</button>
-              </div>
-            </Modal>
+            <h1 className="title is-1">Spotify Matchmaker</h1>
+            <h5 className='subtitle '>Never worry about playlists again</h5>
+            <Modal show={this.state.show} handleClose={this.hideModal} />
             <button type="button" className='button is-success is-outlined is-medium' onClick={this.showModal}>Let's get started</button>
           </div>
         </div>

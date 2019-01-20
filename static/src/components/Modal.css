@@ -1,3 +1,14 @@
 .modal-card-head .title {
   color: black;
 }
+
+.modal-card-foot{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.label {
+  text-align: center;
+}
