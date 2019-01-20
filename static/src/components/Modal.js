@@ -5,6 +5,7 @@ const Modal = ({handleClose, show, children }) => {
 
   return (
     <div className={showHideClassName}>
+<<<<<<< HEAD
       <div className="modal-background"></div>
       <div className="modal-card">
         <header className="modal-card-head">
@@ -15,6 +16,12 @@ const Modal = ({handleClose, show, children }) => {
         </section>
       </div>
       <button className="modal-close is-large" onClick={handleClose} aria-label="close"></button>
+=======
+      <section className="modal-main">
+        {children}
+        <button onClick={handleClose} className='btn landing-btn'>close</button>
+      </section>
+>>>>>>> Update static side to include a modal that will appear when a button is clicked
     </div>
   )
 }

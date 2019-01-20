@@ -25,6 +25,7 @@ class Landing extends React.Component {
     return (
       <header className="main-header">
         <div className="header-content">
+<<<<<<< HEAD
           <h1 className="title is-1">Aux are us</h1>
           <h5 className='subtitle '>Something catchy goes here</h5>
           <Modal show={this.state.show} handleClose={this.hideModal}>
@@ -34,6 +35,15 @@ class Landing extends React.Component {
             </div>
           </Modal>
           <button type="button" className='button is-success is-outlined is-medium' onClick={this.showModal}>Let's get started</button>
+=======
+          <h1>Aux are us</h1>
+          <p className='tagline'>Something catchy goes here</p>
+          <Modal show={this.state.show} handleClose={this.hideModal}>
+            <p>Modal</p>
+            <p>Data</p>
+          </Modal>
+          <button type="button" className='btn landing-btn' onClick={this.showModal}>Let's get started</button>
+>>>>>>> Update static side to include a modal that will appear when a button is clicked
         </div>
       </header>
     )
