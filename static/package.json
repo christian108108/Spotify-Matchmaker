@@ -22,6 +22,7 @@
   "bugs": {
     "url": "https://github.com/christian108108/Spotify-Matchmaker/issues"
   },
+  "proxy": "http://localhost:8888/",
   "homepage": "https://github.com/christian108108/Spotify-Matchmaker#readme",
   "keywords": [],
   "devDependencies": {
@@ -40,6 +41,7 @@
   },
   "dependencies": {
     "react": "^16.7.0",
-    "react-dom": "^16.7.0"
+    "react-dom": "^16.7.0",
+    "spotify-web-api-js": "^1.1.1"
   }
 }

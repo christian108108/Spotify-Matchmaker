@@ -6,7 +6,7 @@ require('./Modal.css')
 class Modal extends React.Component {
   constructor(props){
     super()
-
+    this.partyCodes = []
     this.state = {noAux: false, generateCode: 0, showCode: false};
     this.showPartyCodeForm = this.showPartyCodeForm.bind(this)
     this.generatePartyCode = this.generatePartyCode.bind(this)
@@ -24,6 +24,7 @@ class Modal extends React.Component {
   showPartyCode() {
     this.setState({showCode: !this.state.showCode})
     this.generatePartyCode()
+    this.partyCodes.push(this.state.generateCode)
   }
 
   render() {
@@ -42,7 +43,7 @@ class Modal extends React.Component {
               <button type="button" className='button is-danger is-large' onClick={this.showPartyCodeForm}>No</button>
             </div>
           </section>
-          {this.state.noAux && <PartyForm />}
+          {this.state.noAux && <PartyForm partycodes = {this.partyCodes}/>}
           {this.state.showCode && <ShowParty partycode= {this.state.generateCode} />}
         </div>
         <button className="modal-close is-large" onClick={this.props.handleClose} aria-label="close"></button>

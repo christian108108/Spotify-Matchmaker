@@ -7,7 +7,9 @@ class PartyForm extends React.Component {
   }
   submitPartyCode(e) {
     e.preventDefault();
-    console.log(e)
+    if (this.props.partycodes.includes(Number(document.getElementById('party-code').value))) {
+      alert(`Welcome to party ${document.getElementById('party-code').value}`)
+    }
   }
 
   render() {
@@ -17,7 +19,7 @@ class PartyForm extends React.Component {
           <div className="field">
             <label className="label">Party Code</label>
             <div className="control">
-              <input className="input" type="text" placeholder="Enter a Party Code" />
+              <input className="input" type="text" placeholder="Enter a Party Code" id='party-code'/>
             </div>
           </div>
           <div className="field is-grouped">
