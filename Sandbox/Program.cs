@@ -18,8 +18,8 @@ namespace Sandbox
             // KeyVaultHelper.LogIntoKeyVault();
             // string accessToken = KeyVaultHelper.GetSecret(bearerTokenIdentifier);
 
-            var topArtistsA = SpotifyHelper.GetTopArtistsAsync(accessTokenA, "long_term").Result;
-            var topArtistsB = SpotifyHelper.GetTopArtistsAsync(accessTokenB, "long_term").Result;
+            var topArtistsA = SpotifyHelper.GetTopArtistsAsync(accessTokenA, "short_term").Result;
+            var topArtistsB = SpotifyHelper.GetTopArtistsAsync(accessTokenB, "short_term").Result;
             ;
             // var userA = SpotifyHelper.GetUserAsync(accessTokenA).Result;
             // var userB = SpotifyHelper.GetUserAsync(accessTokenB).Result;
@@ -42,14 +42,25 @@ namespace Sandbox
             ;
         }
 
-        static IEnumerable<Artist> FindCommonArtists(TopArtists artistsA, TopArtists artistsB)
+        static IEnumerable<string> FindCommonArtists(TopArtists artistsA, TopArtists artistsB)
         {
-            var commonArtists = artistsA.Artists.Intersect(artistsB.Artists);
+            var hashSetA = new HashSet<string>();
+            var hashSetB = new HashSet<string>();
 
-            return commonArtists;
+            foreach(var a in artistsA.Artists)
+            {
+                hashSetA.Add(a.Name);
+            }
+
+            foreach(var a in artistsB.Artists)
+            {
+                hashSetB.Add(a.Name);
+            }
+
+            return hashSetA.Intersect(hashSetB);
         }
 
-        static HashSet<string> FindCommonGenres(TopArtists artistsA, TopArtists artistsB)
+        static IEnumerable<string> FindCommonGenres(TopArtists artistsA, TopArtists artistsB)
         {
             var genresA = new HashSet<string>();
             var genresB = new HashSet<string>();
@@ -66,9 +77,7 @@ namespace Sandbox
                 genresB.UnionWith(a.Genres);
             }
 
-            genresA.IntersectWith(genresB);
-
-            return genresA;
+            return genresA.Intersect(genresB);
         }
     }
 }

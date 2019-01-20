@@ -27,9 +27,9 @@ namespace SpotifyMatchmaker.Library
                 new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
-            client.DefaultRequestHeaders.Add("time_range", $"{time_range}");
+            // client.DefaultRequestHeaders.Add("time_range", $"{time_range}");
 
-            var stringTask = client.GetStringAsync("https://api.spotify.com/v1/me/top/artists");
+            var stringTask = client.GetStringAsync($"https://api.spotify.com/v1/me/top/artists?time_range={time_range}");
 
             var msg = await stringTask;
 
