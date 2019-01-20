@@ -25,13 +25,15 @@ class Landing extends React.Component {
     return (
       <header className="main-header">
         <div className="header-content">
-          <h1>Aux are us</h1>
-          <p className='tagline'>Something catchy goes here</p>
+          <h1 className="title is-1">Aux are us</h1>
+          <h5 className='subtitle '>Something catchy goes here</h5>
           <Modal show={this.state.show} handleClose={this.hideModal}>
-            <button type="button" className='btn'>Yes</button>
-            <button type="button" className='btn'>No</button>
+            <div className='buttons'>
+              <button type="button" className='button is-primary'>Yes</button>
+              <button type="button" className='button is-danger'>No</button>
+            </div>
           </Modal>
-          <button type="button" className='btn landing-btn' onClick={this.showModal}>Let's get started</button>
+          <button type="button" className='button is-success is-outlined is-medium' onClick={this.showModal}>Let's get started</button>
         </div>
       </header>
     )

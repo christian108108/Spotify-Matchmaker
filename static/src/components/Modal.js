@@ -5,17 +5,16 @@ const Modal = ({handleClose, show, children }) => {
 
   return (
     <div className={showHideClassName}>
-      <div className='modal-dialog'>
-        <section className="modal-content">
-          <section className="modal-header">
-            <h5>Do you have the aux?</h5>
-            <button onClick={handleClose} className='close'>x</button>
-          </section>
-          <section className="modal-body">
-            {children}
-          </section>
+      <div className="modal-background"></div>
+      <div className="modal-card">
+        <header className="modal-card-head">
+          <p className="modal-card-title">Got Aux?</p>
+        </header>
+        <section className="modal-card-body">
+          {children}
         </section>
       </div>
+      <button className="modal-close is-large" onClick={handleClose} aria-label="close"></button>
     </div>
   )
 }
