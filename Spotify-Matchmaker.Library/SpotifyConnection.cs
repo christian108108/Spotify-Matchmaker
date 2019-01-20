@@ -9,7 +9,7 @@ namespace SpotifyMatchmaker.Library
 {
     public class SpotifyConnection
     {
-        public async Task<TopTracksModel> GetTopTracks() 
+        public async Task<TopTracks> GetTopTracks() 
         {
             string url = "https://api.spotify.com/v1/me/top/tracks";
             
@@ -19,7 +19,8 @@ namespace SpotifyMatchmaker.Library
                 {
                     if (response.IsSuccessStatusCode)
                     {
-                        TopTracksModel topTracks = JsonConvert.DeserializeObject<TopTracksModel>(await response.Content.ReadAsStringAsync());
+                        TopTracks topTracks = TopTracks.FromJson(response.Content.ToString());
+                        // TopTracks topTracks = JsonConvert.DeserializeObject<TopTracks>(await response.Content.ReadAsStringAsync());
                         return topTracks;
                     }
                     else
@@ -35,7 +36,7 @@ namespace SpotifyMatchmaker.Library
             }
         }
 
-        public async Task<TopArtistsModel> GetTopArtists()
+        public async Task<TopArtists> GetTopArtists()
         {
             string url = "https://api.spotify.com/v1/me/top/artists";
 
@@ -45,7 +46,8 @@ namespace SpotifyMatchmaker.Library
                 {
                     if (response.IsSuccessStatusCode)
                     {
-                        TopArtistsModel topArtists = JsonConvert.DeserializeObject<TopArtistsModel>(await response.Content.ReadAsStringAsync());
+                        var topArtists = TopArtists.FromJson(response.Content.ToString());
+                        // TopArtists topArtists = JsonConvert.DeserializeObject<TopArtists>(await response.Content.ReadAsStringAsync());
                         return topArtists;
                     }
                     else
@@ -61,11 +63,11 @@ namespace SpotifyMatchmaker.Library
             }
         }
 
-        public async void CreatePlaylist()
-        {
-            string url = "https://api.spotify.com/v1/playlists";
+        // public async void CreatePlaylist()
+        // {
+        //     string url = "https://api.spotify.com/v1/playlists";
 
-        }
+        // }
 
 
         //public async Task<UserModel> GetUser()

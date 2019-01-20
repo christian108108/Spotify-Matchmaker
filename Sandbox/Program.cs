@@ -6,14 +6,16 @@ namespace Sandbox
 {
     public class Program
     {
-        static TopArtistsModel topArtists;
-        static TopTracksModel topTracks;
+        static TopArtists topArtists;
+        static TopTracks topTracks;
 
         static void Main(string[] args)
         {
             ApiHelper.InitializeClient();
-            topArtists = GetTopArtists();
-            topTracks =  GetTopTracks();
+            SpotifyConnection _spotify = new SpotifyConnection();
+
+            topArtists = _spotify.GetTopArtists().Result;
+            topTracks =  _spotify.GetTopTracks().Result;
             ;
         }
 
@@ -24,16 +26,5 @@ namespace Sandbox
         //    Console.WriteLine(user.Display_name);
         //}
 
-        public static TopTracksModel GetTopTracks()
-        {
-            SpotifyConnection _spotify = new SpotifyConnection();
-            return _spotify.GetTopTracks().Result;
-        }
-
-        public static TopArtistsModel GetTopArtists()
-        {
-            SpotifyConnection _spotify = new SpotifyConnection();
-            return _spotify.GetTopArtists().Result;
-        }
     }
 }
