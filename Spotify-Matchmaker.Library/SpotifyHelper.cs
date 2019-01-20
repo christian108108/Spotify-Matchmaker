@@ -65,7 +65,7 @@ namespace SpotifyMatchmaker.Library
 
             var publishedPlaylist = Playlist.FromJson(msg);
 
-            return publishedPlaylist.Uri;
+            return publishedPlaylist.Id;
         }
 
         private static async Task<User> GetUserAsync(string accessToken)
@@ -191,47 +191,58 @@ namespace SpotifyMatchmaker.Library
         /// <returns>IEnumerable of song URIs</returns>
         public static async Task<IEnumerable<string>> GetArtistsTopTracksAsync(string accessToken, string artistId)
         {
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
-
-
-            var stringTask = client.GetStringAsync($"https://api.spotify.com/v1/artists/{artistId}/top-tracks?country=US");
-
-            var msg = await stringTask;
-
-            var tracks = Tracks.FromJson(msg);
-
-            var trackUris = new HashSet<string>();
-
-            foreach(Track t in tracks.TracksTracks)
+            try
             {
-                trackUris.Add(t.Uri);
-            }
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
 
-            return trackUris;
+
+                var stringTask = client.GetStringAsync($"https://api.spotify.com/v1/artists/{artistId}/top-tracks?country=US");
+
+                var msg = await stringTask;
+
+                var tracks = Tracks.FromJson(msg);
+
+                var trackUris = new HashSet<string>();
+
+                foreach(Track t in tracks.TracksTracks)
+                {
+                    trackUris.Add(t.Uri);
+                }
+
+                return trackUris;
+            }
+            catch
+            {
+                return new List<string>();
+            }
         }
 
         public static async void AddSongsToPlaylistAsync(string accessToken, string playlistId, IEnumerable<string> songURIs )
         {
-            var userId = GetUserAsync(accessToken).Result.Id;
-
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
-
-            var stringContent = new StringContent("", Encoding.UTF8, "application/json");
-
-            foreach(string songURI in songURIs)
+            try
             {
-                
-            }
+                var userId = GetUserAsync(accessToken).Result.Id;
 
-            var response = await client.PostAsync($"https://api.spotify.com/v1/playlists/{playlistId}/tracks", stringContent);
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
+
+                var stringContent = new StringContent("", Encoding.UTF8, "application/json");
+
+                var songURIsString = String.Join(",", songURIs);
+
+                var response = await client.PostAsync($"https://api.spotify.com/v1/playlists/{playlistId}/tracks?uris={songURIsString}", stringContent);
+            }
+            catch
+            {
+                return;
+            }
         }
 
 
