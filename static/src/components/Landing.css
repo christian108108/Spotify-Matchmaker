@@ -1,15 +1,13 @@
-.main-header{
-  height: 100vh;
+.hero{
   background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
               url('../../assets/headerImage.jpg') center center no-repeat fixed;
   background-size: cover;
-  display:flex;
-  flex-direction: column;
+  display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.header-content{
+.container{
   display: flex;
   flex-direction: column;
   justify-content: center;
