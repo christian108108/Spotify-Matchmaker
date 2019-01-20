@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Spotify-Matchmaker/lib/models"
 	"crypto/rand"
 	b64 "encoding/base64"
 	"encoding/json"
@@ -9,9 +10,9 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/codegangsta/negroni"
-
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
@@ -30,14 +31,6 @@ var (
 )
 
 var accseToke *string
-
-type Reponse struct {
-	Accesstoken  string `json:"access_token"`
-	Token_type   string `json:"token_type"`
-	Scope        string `json:"scope"`
-	Expiresin    int    `json:"expires_in"`
-	Refreshtoken string `json:"refresh_token"`
-}
 
 type ObjectKey struct {
 	Token string `json:"token"`
@@ -92,7 +85,7 @@ func callback(w http.ResponseWriter, r *http.Request) {
 	//Authorization: Basic *<base64 encoded client_id:client_secret>*
 	client := http.Client{}
 	res, err := client.Do(request)
-	responseObject := Reponse{}
+	responseObject := models.Reponse{}
 	if err != nil {
 		panic("token was not obtained")
 	}
@@ -123,14 +116,14 @@ func handlerObject(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// func generateRandomString(upstream chan  ) {
-// 	timer := time.After(30)
+func generateRandomString(upstream chan int, numb int) {
+	timer := time.After(60)
 
-// 	select {
-// 	case <- timer:
+	select {
+	case <-timer:
 
-// 	}
-// }
+	}
+}
 
 func autoGenerateBytes(n int, downstream chan []byte) {
 	b := make([]byte, n)
