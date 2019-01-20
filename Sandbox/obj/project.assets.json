@@ -525,10 +525,11 @@
       ]
     },
     "Microsoft.NETCore.Platforms/2.1.0": {
-      "sha512": "TT+QCi9LcxGTjBssH7S7n5+8DVcwfG4DYgXX7Dk7+BfZ4oVHj8Q0CbYk9glzAlHLsSt3bYzol+fOdra2iu6GOw==",
+      "sha512": "aSTPL94NloSiQVL5Len8wbjFKOnoAX/vOh3s3DF6g3c7GUUMLCDvnBhmA72M2iN2AedyA8hpr7m89kzSAKUnJQ==",
       "type": "package",
       "path": "microsoft.netcore.platforms/2.1.0",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
@@ -730,28 +731,30 @@
     ]
   },
   "packageFolders": {
-    "/Users/stark/.nuget/packages/": {},
-    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
+    "C:\\Users\\Christian\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/stark/StarkDev/Spotify-Matchmaker/Sandbox/Sandbox.csproj",
+      "projectUniqueName": "c:\\Users\\Christian\\Documents\\SwampHacks\\Spotify-Matchmaker\\Sandbox\\Sandbox.csproj",
       "projectName": "Sandbox",
-      "projectPath": "/Users/stark/StarkDev/Spotify-Matchmaker/Sandbox/Sandbox.csproj",
-      "packagesPath": "/Users/stark/.nuget/packages/",
-      "outputPath": "/Users/stark/StarkDev/Spotify-Matchmaker/Sandbox/obj",
+      "projectPath": "c:\\Users\\Christian\\Documents\\SwampHacks\\Spotify-Matchmaker\\Sandbox\\Sandbox.csproj",
+      "packagesPath": "C:\\Users\\Christian\\.nuget\\packages\\",
+      "outputPath": "c:\\Users\\Christian\\Documents\\SwampHacks\\Spotify-Matchmaker\\Sandbox\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/stark/.config/NuGet/NuGet.Config"
+        "C:\\Users\\Christian\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.1"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
