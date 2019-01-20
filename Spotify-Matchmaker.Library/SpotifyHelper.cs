@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -38,8 +40,10 @@ namespace SpotifyMatchmaker.Library
             return topArtists;
         }
 
-        public static async Task CreatePlaylistAsync(string accessToken, string userId)
+        public static async Task<string> CreatePlaylistAsync(string accessToken, string playListName)
         {
+            var userId = GetUserAsync(accessToken).Result.Id;
+
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
@@ -49,16 +53,22 @@ namespace SpotifyMatchmaker.Library
             //create playlist object
 
             Playlist newPlaylist = new Playlist();
-            newPlaylist.Name = "Spotify Matchmaker Playlist";
+            newPlaylist.Name = playListName;
 
             string jsonPlaylist = PlaylistSerialize.ToJson(newPlaylist);
 
             var stringContent = new StringContent(jsonPlaylist, Encoding.UTF8, "application/json");
 
             var response = await client.PostAsync($"https://api.spotify.com/v1/users/{userId}/playlists", stringContent);
+
+            var msg = response.Content.ReadAsStringAsync().Result;
+
+            var publishedPlaylist = Playlist.FromJson(msg);
+
+            return publishedPlaylist.Uri;
         }
 
-        public static async Task<User> GetUserAsync(string accessToken)
+        private static async Task<User> GetUserAsync(string accessToken)
         {
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Accept.Add(
@@ -85,6 +95,144 @@ namespace SpotifyMatchmaker.Library
             }
         }
 
+        public static IEnumerable<string> FindCommonArtists(TopArtists artistsA, TopArtists artistsB)
+        {
+            var hashSetA = new HashSet<string>();
+            var hashSetB = new HashSet<string>();
+
+            foreach(var a in artistsA.Artists)
+            {
+                hashSetA.Add(a.Name);
+            }
+
+            foreach(var a in artistsB.Artists)
+            {
+                hashSetB.Add(a.Name);
+            }
+
+            return hashSetA.Intersect(hashSetB);
+        }
+
+        public static IEnumerable<string> FindCommonGenres(TopArtists artistsA, TopArtists artistsB)
+        {
+            var genresA = new HashSet<string>();
+            var genresB = new HashSet<string>();
+
+            var commonGenres = new HashSet<string>();
+
+            foreach(Artist a in artistsA.Artists)
+            {
+                genresA.UnionWith(a.Genres);
+            }
+
+            foreach(Artist a in artistsB.Artists)
+            {
+                genresB.UnionWith(a.Genres);
+            }
+
+            return genresA.Intersect(genresB);
+        }
+
+        public static IEnumerable<string> SuggestArtists(TopArtists artistsA, TopArtists artistsB)
+        {
+            var commonGenres = SpotifyHelper.FindCommonGenres(artistsA, artistsB);
+
+            var suggestedArtists = new HashSet<string>();
+
+            foreach(Artist a in artistsA.Artists)
+            {
+                if (a.Genres.Intersect(commonGenres).Any())
+                {
+                    suggestedArtists.Add(a.Name);
+                }
+            }
+
+            foreach(Artist a in artistsB.Artists)
+            {
+                if(a.Genres.Intersect(commonGenres).Any())
+                {
+                    suggestedArtists.Add(a.Name);
+                }
+            }
+
+            return suggestedArtists;
+        }
+
+        public static IEnumerable<string> SuggestArtistIDs(TopArtists artistsA, TopArtists artistsB)
+        {
+            var commonGenres = SpotifyHelper.FindCommonGenres(artistsA, artistsB);
+
+            var suggestedArtists = new HashSet<string>();
+
+            foreach(Artist a in artistsA.Artists)
+            {
+                if (a.Genres.Intersect(commonGenres).Any())
+                {
+                    suggestedArtists.Add(a.Id);
+                }
+            }
+
+            foreach(Artist a in artistsB.Artists)
+            {
+                if(a.Genres.Intersect(commonGenres).Any())
+                {
+                    suggestedArtists.Add(a.Id);
+                }
+            }
+
+            return suggestedArtists;
+        }
+
+        /// <summary>
+        /// Gets top tracks from a given artist
+        /// </summary>
+        /// <param name="accessToken">user's access token</param>
+        /// <param name="artistId">artist's Spotify ID</param>
+        /// <returns>IEnumerable of song URIs</returns>
+        public static async Task<IEnumerable<string>> GetArtistsTopTracksAsync(string accessToken, string artistId)
+        {
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
+
+
+            var stringTask = client.GetStringAsync($"https://api.spotify.com/v1/artists/{artistId}/top-tracks?country=US");
+
+            var msg = await stringTask;
+
+            var tracks = Tracks.FromJson(msg);
+
+            var trackUris = new HashSet<string>();
+
+            foreach(Track t in tracks.TracksTracks)
+            {
+                trackUris.Add(t.Uri);
+            }
+
+            return trackUris;
+        }
+
+        public static async void AddSongsToPlaylistAsync(string accessToken, string playlistId, IEnumerable<string> songURIs )
+        {
+            var userId = GetUserAsync(accessToken).Result.Id;
+
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
+
+            var stringContent = new StringContent("", Encoding.UTF8, "application/json");
+
+            foreach(string songURI in songURIs)
+            {
+                
+            }
+
+            var response = await client.PostAsync($"https://api.spotify.com/v1/playlists/{playlistId}/tracks", stringContent);
+        }
 
 
     }

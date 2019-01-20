@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using SpotifyMatchmaker.Library;
@@ -9,9 +10,8 @@ namespace Sandbox
     public class Program
     {
         private const string bearerTokenIdentifier = "https://spotify-matchmaker.vault.azure.net/secrets/secret/";
-
-        private const string accessTokenA = "BQC-45SK8oWNPgIGhOXpgK3Crvq5zECgtmOekoae0YPr6B7IIcn4zBfLu7U5ZgMwVcfL4SsMLoaKTO-Skuy0yBjmwE4ADcRv27FVo9yw6wHV1KYfB_mKPIYoWdzUB3MwPKzL5P1y8iis8AXhH3DJrCBiBV0rypmT3L9Cu8d4n27dv3Uhy_2GbHFde5xUOxDr38S9Ykiiotj99y-Hx7k3j8vYZlzSAutMHC_qVr8yakTjsIo";
-        private const string accessTokenB = "BQA5rQlydVzZMfAn-KQu6HootmJfJNt1WAlvli1lvYL29OOoKPOfw-RtjBWGKLeb80Uv4riISl1GkRkHsaZmm25eq3oCCOtnlHIsExinUqjGlKal6vNnBPhKsK22KWXGZ8Rng2vjmt3yeQ7g8Qtzhiw_ZEPs3j4wX5ZcpxXfqg";
+        private const string accessTokenA = "BQDODVv7y1kzIjnH6RjEu70O2FxHYydzytD0KH7H05IJnBcYGhN3IEVJ9hCP5tMuHhtjQYdeGvPJ6GrVJs9eeRnkzaMDqSRjKruy4pidsFTeRl2fqY-WR6shga4SsQ4_8d1ZP_2N64CBlRj2ljUj7EMp88fRw171XERvuje6Kvbm3jkmzSQJrSEnPeTI8CqVAbuilvhLBX1JsQVVnj2D3WciXa1aFN_QQCLy";
+        private const string accessTokenB = "BQAF8JHlKN5PcxGgn_hHPBP1X7m0LFB8ZxixSCBfZq_vHM5q9HFYo4EosHiBpCwf4u-jpyUgAQVqGnNqWFdRU8_ULiN1Bo9frXciDresnepSPgjuy0ALxMPGqbuPaRwVXCjxHlz98qXxoH1H_k5Nw46qB9IEpx2yMdZZHr5iLiDvI2QfTbLogdSZvtaXKNe3yQiuJQqepImhA83xbWChTQzWupjsqsIlPmQyCzPuxn8zjGw";
 
         static void Main(string[] args)
         {
@@ -26,11 +26,9 @@ namespace Sandbox
 
             // SpotifyHelper.CreatePlaylistAsync(accessToken, user.Id).Wait();
 
-            // SpotifyHelper.PrintTopArtists(topArtists);
+            var commonArtists = SpotifyHelper.FindCommonArtists(topArtistsA, topArtistsB);
 
-            var commonArtists = FindCommonArtists(topArtistsA, topArtistsB);
-
-            var commonGenres = FindCommonGenres(topArtistsA, topArtistsB);
+            var commonGenres = SpotifyHelper.FindCommonGenres(topArtistsA, topArtistsB);
 
             var commonArtistsString = String.Join(", ", commonArtists);
             
@@ -39,45 +37,18 @@ namespace Sandbox
             Console.WriteLine($"You have these artists in common: {commonArtistsString}");
 
             Console.WriteLine($"You have these genres in common: {commonGenresString}");
+
+            var suggestedArtists = SpotifyHelper.SuggestArtists(topArtistsA, topArtistsB);
+            var suggestedArtistsString = String.Join(", ", suggestedArtists);
+            Console.WriteLine($"We suggest listening to these artists: {suggestedArtistsString}");
+
+            var artistIDs = SpotifyHelper.SuggestArtistIDs(topArtistsA, topArtistsB).ToList();
+
+            // var playListURI = SpotifyHelper.CreatePlaylistAsync(accessTokenB, "Spotify Matchmaker Playlist").Result;
+
+            var trackUris = SpotifyHelper.GetArtistsTopTracksAsync(accessTokenB, artistIDs[0]).Result;
+
             ;
-        }
-
-        static IEnumerable<string> FindCommonArtists(TopArtists artistsA, TopArtists artistsB)
-        {
-            var hashSetA = new HashSet<string>();
-            var hashSetB = new HashSet<string>();
-
-            foreach(var a in artistsA.Artists)
-            {
-                hashSetA.Add(a.Name);
-            }
-
-            foreach(var a in artistsB.Artists)
-            {
-                hashSetB.Add(a.Name);
-            }
-
-            return hashSetA.Intersect(hashSetB);
-        }
-
-        static IEnumerable<string> FindCommonGenres(TopArtists artistsA, TopArtists artistsB)
-        {
-            var genresA = new HashSet<string>();
-            var genresB = new HashSet<string>();
-
-            var commonGenres = new HashSet<string>();
-
-            foreach(Artist a in artistsA.Artists)
-            {
-                genresA.UnionWith(a.Genres);
-            }
-
-            foreach(Artist a in artistsB.Artists)
-            {
-                genresB.UnionWith(a.Genres);
-            }
-
-            return genresA.Intersect(genresB);
         }
     }
 }
