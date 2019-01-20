@@ -22,7 +22,7 @@ namespace SpotifyMatchmaker.Library
         public static async Task<TopArtists> GetTopArtistsAsync(string accessToken, 
                                                                 string time_range = "medium_term")
         {
-            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
             client.DefaultRequestHeaders.Clear();
@@ -38,24 +38,55 @@ namespace SpotifyMatchmaker.Library
             return topArtists;
         }
 
-        public static async Task CreatePlaylist(string accessToken, string userId)
+        public static async Task CreatePlaylistAsync(string accessToken, string userId)
         {
-            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
-            client.DefaultRequestHeaders.Add("Content-Type", "application/json");
 
             //create playlist object
 
             Playlist newPlaylist = new Playlist();
             newPlaylist.Name = "Spotify Matchmaker Playlist";
 
-            var jsonPlaylist = PlaylistSerialize.ToJson(newPlaylist);
+            string jsonPlaylist = PlaylistSerialize.ToJson(newPlaylist);
 
-            await client.PostAsync($"https://api.spotify.com/v1/users/{userId}/playlists", new StringContent(jsonPlaylist, Encoding.UTF8, "application/json"));
+            var stringContent = new StringContent(jsonPlaylist, Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync($"https://api.spotify.com/v1/users/{userId}/playlists", stringContent);
         }
+
+        public static async Task<User> GetUserAsync(string accessToken)
+        {
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
+
+            var stringTask = client.GetStringAsync("https://api.spotify.com/v1/me");
+
+            var msg = await stringTask;
+
+            var user = User.FromJson(msg);
+
+            return user;
+        }
+
+        public static void PrintTopArtists(TopArtists artists)
+        {
+            foreach(var a in artists.Artists)
+            {
+                Console.Write($"You like listening to {a.Name}! Their popularity score is {a.Popularity}. Genres: ");
+            
+                Console.WriteLine(String.Join(", ", a.Genres));
+            }
+        }
+
+
+
     }
 
 }

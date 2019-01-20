@@ -104,12 +104,12 @@ namespace SpotifyMatchmaker.Library.Models
 
     public partial class Playlist
     {
-        public static Playlist FromJson(string json) => JsonConvert.DeserializeObject<Playlist>(json, SpotifyMatchmaker.Library.Models.Converter.Settings);
+        public static Playlist FromJson(string json) => JsonConvert.DeserializeObject<Playlist>(json, SpotifyMatchmaker.Library.Models.PlaylistConverter.Settings);
     }
 
     public static class PlaylistSerialize
     {
-        public static string ToJson(this Playlist self) => JsonConvert.SerializeObject(self, SpotifyMatchmaker.Library.Models.Converter.Settings);
+        public static string ToJson(this Playlist self) => JsonConvert.SerializeObject(self, SpotifyMatchmaker.Library.Models.PlaylistConverter.Settings);
     }
 
     internal static class PlaylistConverter
@@ -122,6 +122,7 @@ namespace SpotifyMatchmaker.Library.Models
             {
                 new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
             },
+            NullValueHandling = NullValueHandling.Ignore,
         };
     }
 }

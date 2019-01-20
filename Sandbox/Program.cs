@@ -12,6 +12,12 @@ namespace Sandbox
             string accessToken = KeyVaultHelper.GetSecret(bearerTokenIdentifier);
 
             var topArtists = SpotifyHelper.GetTopArtistsAsync(accessToken, "long_term").Result;
+            
+            var user = SpotifyHelper.GetUserAsync(accessToken).Result;
+
+            SpotifyHelper.CreatePlaylistAsync(accessToken, user.Id).Wait();
+
+            SpotifyHelper.PrintTopArtists(topArtists);
         }
     }
 }
