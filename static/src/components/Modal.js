@@ -1,4 +1,5 @@
 var React = require('react')
+require('./Modal.css')
 
 const Modal = ({handleClose, show, children }) => {
   const showHideClassName = show ? "modal display-block" : "modal display-none"
@@ -8,7 +9,7 @@ const Modal = ({handleClose, show, children }) => {
       <div className="modal-background"></div>
       <div className="modal-card">
         <header className="modal-card-head">
-          <p className="modal-card-title">Got Aux?</p>
+          <p className="modal-card-title title is-2">Got Aux?</p>
         </header>
         <section className="modal-card-body">
           {children}

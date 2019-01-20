@@ -24,10 +24,24 @@
   justify-content: center;
 }
 
+.modal {
+  transition: opacity 1s;
+}
+
+.modal-card-head {
+  text-align: center;
+}
+
 .display-block {
-  display: block;
+  display: flex;
+  justify-content: center;
+  visibility: visible;
+  opacity: 1;
 }
 
 .display-none {
-  display: none;
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
 }
+

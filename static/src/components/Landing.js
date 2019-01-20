@@ -30,14 +30,14 @@ class Landing extends React.Component {
             <h5 className='subtitle '>Something catchy goes here</h5>
             <Modal show={this.state.show} handleClose={this.hideModal}>
               <div className='buttons'>
-                <button type="button" className='button is-primary'>Yes</button>
-                <button type="button" className='button is-danger'>No</button>
+                <button type="button" className='button is-primary is-large'>Yes</button>
+                <button type="button" className='button is-danger is-large'>No</button>
               </div>
             </Modal>
             <button type="button" className='button is-success is-outlined is-medium' onClick={this.showModal}>Let's get started</button>
-            </div>
+          </div>
         </div>
-    </section>
+      </section>
     )
   }
 }
