@@ -1,0 +1,9 @@
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Sandbox.Library\bin\Debug\netstandard2.0\Sandbox.Library.deps.json
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Sandbox.Library\bin\Debug\netstandard2.0\Sandbox.Library.dll
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Sandbox.Library\bin\Debug\netstandard2.0\Sandbox.Library.pdb
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Sandbox.Library\obj\Debug\netstandard2.0\Sandbox.Library.csprojAssemblyReference.cache
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Sandbox.Library\obj\Debug\netstandard2.0\Sandbox.Library.csproj.CoreCompileInputs.cache
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Sandbox.Library\obj\Debug\netstandard2.0\Sandbox.Library.AssemblyInfoInputs.cache
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Sandbox.Library\obj\Debug\netstandard2.0\Sandbox.Library.AssemblyInfo.cs
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Sandbox.Library\obj\Debug\netstandard2.0\Sandbox.Library.dll
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Sandbox.Library\obj\Debug\netstandard2.0\Sandbox.Library.pdb
