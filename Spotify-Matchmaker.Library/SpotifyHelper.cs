@@ -1,6 +1,7 @@
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.KeyVault;
 using Microsoft.Azure.Services.AppAuthentication;
@@ -37,6 +38,24 @@ namespace SpotifyMatchmaker.Library
             return topArtists;
         }
 
+        public static async Task CreatePlaylist(string accessToken, string userId)
+        {
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
+            client.DefaultRequestHeaders.Add("Content-Type", "application/json");
+
+            //create playlist object
+
+            Playlist newPlaylist = new Playlist();
+            newPlaylist.Name = "Spotify Matchmaker Playlist";
+
+            var jsonPlaylist = PlaylistSerialize.ToJson(newPlaylist);
+
+            await client.PostAsync($"https://api.spotify.com/v1/users/{userId}/playlists", new StringContent(jsonPlaylist, Encoding.UTF8, "application/json"));
+        }
     }
 
 }
