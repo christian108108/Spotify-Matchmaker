@@ -2,10 +2,12 @@ package main
 
 import (
 	b64 "encoding/base64"
+	"encoding/json"
 	"errors"
 	"fmt"
-	"html/template"
+	"io/ioutil"
 	"net/http"
+	"strings"
 
 	"github.com/gorilla/mux"
 )
@@ -16,17 +18,32 @@ const (
 	redirect_URI   = "http://localhost:8182/callback"
 	respType       = "code"
 	scopes         = "user-top-read"
-	grand_type     = "refresh_token"
+	grant_type     = "authorization_code"
 )
 
 var (
 	key = ""
 )
 
+var accseToke *string
+
+type Reponse struct {
+	access_token  string `json:"access_token"`
+	token_type    string `json:"token_type"`
+	scope         string `json:"scope"`
+	expires_in    int    `json:"expires_in"`
+	refresh_token string `json:"refresh_token"`
+}
+
+type ObjectKey struct {
+	Token string `json:"token"`
+}
+
 func main() {
 	r := mux.NewRouter()
 	r.Methods("GET").Path("/music").HandlerFunc(serveSpotify)
 	r.Methods("GET").Path("/callback").HandlerFunc(callback)
+	r.Methods("GET").Path("/music/api").HandlerFunc(handlerObject)
 	// Serve the static files and templates from the static directory
 	http.ListenAndServe(":8182", r)
 
@@ -49,25 +66,43 @@ func callback(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Sorry but you did not authorize accses. Try later. Error: %s", err)
 	}
 	fmt.Println(key)
-	templates := template.Must(template.ParseFiles("./static/index.html"))
-	templates.Execute(w, nil)
-
-	spotifyServURI := fmt.Sprintf("https://accounts.spotify.com/api/token?grand_type=%s&code=%s&redirect_uri=%s", grand_type, key, redirect_URI)
+	spotifyServURI := fmt.Sprintf("https://accounts.spotify.com/api/token?grant_type=%s&code=%s&redirect_uri=%s", grant_type, key, redirect_URI)
 	request, err := http.NewRequest("POST", spotifyServURI, nil)
 	if err != nil {
 		panic("Error exchaging tokens. Please try later")
 	}
-	base64Key := b64.StdEncoding.EncodeToString([]byte(clientSecretID))
-	strEnc := fmt.Sprintf("Basic" + clientID + ":" + base64Key)
-
-	request.Header.Set("Authorization", strEnc)
+	stirng64Base := fmt.Sprintf("%s:%s", clientID, clientSecretID)
+	fmt.Println(stirng64Base)
+	base64Key := b64.StdEncoding.EncodeToString([]byte(stirng64Base))
+	strings.TrimSuffix(base64Key, "")
+	fmt.Println(base64Key)
+	strEnc := fmt.Sprintf(base64Key)
+	newStrenc := strings.Replace(strEnc, "=", "", -1)
+	fmt.Println(newStrenc)
+	request.Header.Set("Authorization", "Basic "+newStrenc)
+	request.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	//Authorization: Basic *<base64 encoded client_id:client_secret>*
 	client := http.Client{}
-	if res, err := client.Do(request); err != nil {
-		panic("Error calling endpoint. Try again")
-	} else {
-		accseToke := res.Header.Get("StatusCode")
-		fmt.Println(accseToke)
+	res, err := client.Do(request)
+	if err != nil {
+		panic("token was not obtained")
 	}
+	res.Header.Get("200")
+	defer res.Body.Close()
+	data, _ := ioutil.ReadAll(res.Body)
+	dt := string(data)
+	fmt.Println(dt)
+	// Object2 := &Reponse{}
+	// err = json.Unmarshal(data, Object2)
+	// fmt.Println(Object2.access_token)
+}
 
+func handlerObject(w http.ResponseWriter, r *http.Request) {
+	object := ObjectKey{
+		Token: *accseToke,
+	}
+	err := json.NewEncoder(w).Encode(&object)
+	if err != nil {
+		fmt.Println("An error happened")
+	}
 }
