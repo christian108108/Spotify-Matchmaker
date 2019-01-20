@@ -16,8 +16,6 @@ namespace DatabaseFiller
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-
             List<Party> parties = new List<Party>();
 
             for(int i=0; i<100; i++)

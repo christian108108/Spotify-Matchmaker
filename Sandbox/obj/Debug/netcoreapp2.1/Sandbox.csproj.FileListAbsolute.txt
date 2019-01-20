@@ -9,3 +9,17 @@
 /Users/stark/StarkDev/Spotify-Matchmaker/Sandbox/obj/Debug/netcoreapp2.1/Sandbox.AssemblyInfo.cs
 /Users/stark/StarkDev/Spotify-Matchmaker/Sandbox/obj/Debug/netcoreapp2.1/Sandbox.dll
 /Users/stark/StarkDev/Spotify-Matchmaker/Sandbox/obj/Debug/netcoreapp2.1/Sandbox.pdb
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Sandbox\obj\Debug\netcoreapp2.1\Sandbox.csprojAssemblyReference.cache
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Sandbox\obj\Debug\netcoreapp2.1\Sandbox.csproj.CoreCompileInputs.cache
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Sandbox\obj\Debug\netcoreapp2.1\Sandbox.AssemblyInfoInputs.cache
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Sandbox\obj\Debug\netcoreapp2.1\Sandbox.AssemblyInfo.cs
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Sandbox\obj\Debug\netcoreapp2.1\Sandbox.dll
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Sandbox\obj\Debug\netcoreapp2.1\Sandbox.pdb
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Sandbox\bin\Debug\netcoreapp2.1\Sandbox.deps.json
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Sandbox\bin\Debug\netcoreapp2.1\Sandbox.runtimeconfig.json
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Sandbox\bin\Debug\netcoreapp2.1\Sandbox.runtimeconfig.dev.json
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Sandbox\bin\Debug\netcoreapp2.1\Sandbox.dll
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Sandbox\bin\Debug\netcoreapp2.1\Sandbox.pdb
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Sandbox\bin\Debug\netcoreapp2.1\Spotify-Matchmaker.Library.dll
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Sandbox\bin\Debug\netcoreapp2.1\Spotify-Matchmaker.Library.pdb
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Sandbox\obj\Debug\netcoreapp2.1\Sandbox.csproj.CopyComplete

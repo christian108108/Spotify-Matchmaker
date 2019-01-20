@@ -1,0 +1,9 @@
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Spotify-Matchmaker.Library\obj\Debug\netstandard2.0\Spotify-Matchmaker.Library.csprojAssemblyReference.cache
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Spotify-Matchmaker.Library\obj\Debug\netstandard2.0\Spotify-Matchmaker.Library.csproj.CoreCompileInputs.cache
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Spotify-Matchmaker.Library\obj\Debug\netstandard2.0\Spotify-Matchmaker.Library.AssemblyInfoInputs.cache
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Spotify-Matchmaker.Library\obj\Debug\netstandard2.0\Spotify-Matchmaker.Library.AssemblyInfo.cs
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Spotify-Matchmaker.Library\bin\Debug\netstandard2.0\Spotify-Matchmaker.Library.deps.json
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Spotify-Matchmaker.Library\bin\Debug\netstandard2.0\Spotify-Matchmaker.Library.dll
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Spotify-Matchmaker.Library\bin\Debug\netstandard2.0\Spotify-Matchmaker.Library.pdb
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Spotify-Matchmaker.Library\obj\Debug\netstandard2.0\Spotify-Matchmaker.Library.dll
+C:\Users\Christian\Documents\SwampHacks\Spotify-Matchmaker\Spotify-Matchmaker.Library\obj\Debug\netstandard2.0\Spotify-Matchmaker.Library.pdb

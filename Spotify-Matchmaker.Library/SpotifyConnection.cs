@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using SpotifyMatchmaker.Library.Models;
 using Newtonsoft.Json;
 
-namespace Sandbox.Library
+namespace SpotifyMatchmaker.Library
 {
     public class SpotifyConnection
     {

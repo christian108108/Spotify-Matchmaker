@@ -19,6 +19,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Spotify-Matchmaker.Models\Models.csproj" />
+    <ProjectReference Include="..\Spotify-Matchmaker.Library\Spotify-Matchmaker.Library.csproj" />
   </ItemGroup>
 </Project>

@@ -1,15 +1,20 @@
 ﻿using System;
-using Sandbox.Library;
-using Sandbox.Library.Models;
+using SpotifyMatchmaker.Library;
+using SpotifyMatchmaker.Library.Models;
 
 namespace Sandbox
 {
     public class Program
     {
+        static TopArtistsModel topArtists;
+        static TopTracksModel topTracks;
+
         static void Main(string[] args)
         {
-            Sandbox.Library.ApiHelper.InitializeClient();
-            Console.ReadLine();
+            ApiHelper.InitializeClient();
+            topArtists = GetTopArtists();
+            topTracks =  GetTopTracks();
+            ;
         }
 
         //public static async void GetUser()
@@ -19,16 +24,16 @@ namespace Sandbox
         //    Console.WriteLine(user.Display_name);
         //}
 
-        public static async void GetTopTracks()
+        public static TopTracksModel GetTopTracks()
         {
-            Sandbox.Library.SpotifyConnection _spotify = new Sandbox.Library.SpotifyConnection();
-            TopTracksModel topTracks = await _spotify.GetTopTracks();
+            SpotifyConnection _spotify = new SpotifyConnection();
+            return _spotify.GetTopTracks().Result;
         }
 
-        public static async void GetTopArtists()
+        public static TopArtistsModel GetTopArtists()
         {
-            Sandbox.Library.SpotifyConnection _spotify = new SpotifyConnection();
-            TopArtistsModel topArtists = await _spotify.GetTopArtists();
+            SpotifyConnection _spotify = new SpotifyConnection();
+            return _spotify.GetTopArtists().Result;
         }
     }
 }
