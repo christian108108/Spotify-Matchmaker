@@ -18,7 +18,7 @@ const (
 	redirect_URI   = "http://localhost:8182/callback"
 	respType       = "code"
 	scopes         = "user-top-read"
-	grant_type     = "authorization_code"
+	grant_type     = "authorization_code playlist-modify-public"
 )
 
 var (
@@ -78,10 +78,12 @@ func callback(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(base64Key)
 	strEnc := fmt.Sprintf(base64Key)
 	newStrenc := strings.Replace(strEnc, "=", "", -1)
+
 	fmt.Println(newStrenc)
 	request.Header.Set("Authorization", "Basic "+newStrenc)
 	request.Header.Set("Accept", " application/json")
 	request.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
 	//Authorization: Basic *<base64 encoded client_id:client_secret>*
 	client := http.Client{}
 	res, err := client.Do(request)
@@ -114,4 +116,7 @@ func handlerObject(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println("An error happened", err)
 	}
+}
+
+func autoGenerateTokens() {
 }
