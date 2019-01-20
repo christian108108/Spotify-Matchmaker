@@ -7,7 +7,7 @@ namespace SpotifyMatchmaker.Library
 {
     public class ApiHelper
     {
-        public static HttpClient ApiClient { get; set; }
+        public static HttpClient ApiClient = new HttpClient();
         const string bearerTokenIdentifier = "https://spotify-matchmaker.vault.azure.net/secrets/secret/";
 
         public static void InitializeClient()
@@ -15,7 +15,6 @@ namespace SpotifyMatchmaker.Library
             KeyVaultHelper.LogIntoKeyVault();
             string bearerToken = KeyVaultHelper.GetSecret(bearerTokenIdentifier);
 
-            ApiClient = new HttpClient();
             ApiClient.DefaultRequestHeaders.Accept.Clear();
             ApiClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"Bearer {bearerToken}");
             ApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

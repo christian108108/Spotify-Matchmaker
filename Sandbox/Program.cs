@@ -1,30 +1,17 @@
-﻿using System;
-using SpotifyMatchmaker.Library;
-using SpotifyMatchmaker.Library.Models;
+﻿using SpotifyMatchmaker.Library;
 
 namespace Sandbox
 {
     public class Program
     {
-        static TopArtists topArtists;
-        static TopTracks topTracks;
+        private const string bearerTokenIdentifier = "https://spotify-matchmaker.vault.azure.net/secrets/secret/";
 
         static void Main(string[] args)
         {
-            ApiHelper.InitializeClient();
-            SpotifyConnection _spotify = new SpotifyConnection();
+            KeyVaultHelper.LogIntoKeyVault();
+            string accessToken = KeyVaultHelper.GetSecret(bearerTokenIdentifier);
 
-            topArtists = _spotify.GetTopArtists().Result;
-            topTracks =  _spotify.GetTopTracks().Result;
-            ;
+            var topArtists = SpotifyHelper.GetTopArtistsAsync(accessToken, "long_term").Result;
         }
-
-        //public static async void GetUser()
-        //{
-        //    Sandbox.Library.SpotifyConnection _spotify = new Sandbox.Library.SpotifyConnection();
-        //    UserModel user = await _spotify.GetUser();
-        //    Console.WriteLine(user.Display_name);
-        //}
-
     }
 }
