@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/rand"
 	b64 "encoding/base64"
 	"encoding/json"
 	"errors"
@@ -9,16 +10,19 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/codegangsta/negroni"
+
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
 
 const (
 	clientID       = "475b4f5384194becb712ad90112be788"
-	clientSecretID = "1aae388815834169a26f4d5e04259101"
+	clientSecretID = "24a4f437435345a09230cb7300a12d05"
 	redirect_URI   = "http://localhost:8182/callback"
 	respType       = "code"
 	scopes         = "user-top-read"
-	grant_type     = "authorization_code playlist-modify-public"
+	grant_type     = "authorization_code"
 )
 
 var (
@@ -40,12 +44,14 @@ type ObjectKey struct {
 }
 
 func main() {
+	n := negroni.Classic()
 	r := mux.NewRouter()
 	r.Methods("GET").Path("/music").HandlerFunc(serveSpotify)
 	r.Methods("GET").Path("/callback").HandlerFunc(callback)
 	r.Methods("GET").Path("/music/api").HandlerFunc(handlerObject)
 	// Serve the static files and templates from the static directory
-	http.ListenAndServe(":8182", r)
+	n.UseHandler(r)
+	http.ListenAndServe(":8182", handlers.CORS()(r))
 
 }
 
@@ -63,9 +69,8 @@ func callback(w http.ResponseWriter, r *http.Request) {
 	key = r.FormValue("code")
 	if rejection := r.FormValue("error"); rejection != "" {
 		err := errors.New("No authorization found")
-		fmt.Fprintf(w, "Sorry but you did not authorize accses. Try later. Error: %s", err)
+		fmt.Fprintf(w, "Sorry but you did not authorize access. Try later. Error: %s", err)
 	}
-	fmt.Println(key)
 	spotifyServURI := fmt.Sprintf("https://accounts.spotify.com/api/token?grant_type=%s&code=%s&redirect_uri=%s", grant_type, key, redirect_URI)
 	request, err := http.NewRequest("POST", spotifyServURI, nil)
 	if err != nil {
@@ -118,5 +123,20 @@ func handlerObject(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func autoGenerateTokens() {
+// func generateRandomString(upstream chan  ) {
+// 	timer := time.After(30)
+
+// 	select {
+// 	case <- timer:
+
+// 	}
+// }
+
+func autoGenerateBytes(n int, downstream chan []byte) {
+	b := make([]byte, n)
+	_, err := rand.Read(b)
+	if err != nil {
+		downstream <- nil
+	}
+	downstream <- b
 }
