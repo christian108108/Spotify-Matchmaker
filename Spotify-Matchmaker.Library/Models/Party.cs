@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Microsoft.Azure.Cosmos.Table;
 using System.Globalization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -16,14 +16,14 @@ using Newtonsoft.Json.Converters;
 namespace SpotifyMatchmaker.Library.Models
 {
 
-    public partial class Party
+    public partial class Party : TableEntity
     {
         /// <summary>
         /// Unique party code to pair friends together
         /// </summary>
         /// <value></value>
         [JsonProperty("party_code")]
-        public string PartyCode { get; set; }
+        public string PartyCode { get => this.RowKey; set => this.RowKey = value; }
 
         /// <summary>
         /// The host's Spotify access token
@@ -59,6 +59,13 @@ namespace SpotifyMatchmaker.Library.Models
         /// <value></value>
         [JsonProperty("person5")]
         public string Person5 { get; set; }
+
+        public Party(string partyCode)
+        {
+            this.PartyCode = partyCode;
+            this.PartitionKey = "parties";
+        }
+
     }
 
     public partial class Party
