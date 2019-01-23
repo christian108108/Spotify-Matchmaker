@@ -40,16 +40,12 @@ namespace SpotifyMatchmaker.Library
 
         /// <summary>
         /// Create a table for the sample application to process messages in. 
-        /// Will create the cloud table if it doesn't exist yet
-        /// Automatically logs into Key Vault
         /// </summary>
-        /// <returns>A CloudTable object</returns>
-        public static async Task<CloudTable> CreateTableAsync(string tableName)
+        /// <param name="tableName">name of table you'd like to create or access</param>
+        /// <param name="connectionString">connection string for Azure Storage account you'd like to access</param>
+        /// <returns>Task containing a CloudTable object of the cloud table you created or accessed</returns>
+        public static async Task<CloudTable> GetOrCreateTableAsync(string tableName, string connectionString)
         {
-            // Retrieve connection string from KeyVault
-            KeyVaultHelper.LogIntoKeyVault();
-            string connectionString = KeyVaultHelper.GetSecret("https://spotify-matchmaker.vault.azure.net/secrets/storage-connection-string/");
-
             // Retrieve storage account information from connection string.
             CloudStorageAccount storageAccount = CreateStorageAccountFromConnectionString(connectionString);
 
@@ -72,13 +68,16 @@ namespace SpotifyMatchmaker.Library
         }
 
         /// <summary>
-        /// Create a table for the sample application to process messages in. 
+        /// Create a table for the sample application to process messages in.
+        /// Automatically logs into Key Vault and grabs connection string
         /// </summary>
         /// <param name="tableName">name of table you'd like to create or access</param>
-        /// <param name="connectionString">connection string for Azure Storage account you'd like to access</param>
         /// <returns>Task containing a CloudTable object of the cloud table you created or accessed</returns>
-        public static async Task<CloudTable> GetOrCreateTableAsync(string tableName, string connectionString)
+        public static async Task<CloudTable> GetOrCreateTableAsync(string tableName)
         {
+            KeyVaultHelper.LogIntoKeyVault();
+            string connectionString = KeyVaultHelper.GetSecret("https://spotify-matchmaker.vault.azure.net/secrets/storage-connection-string/");
+
             // Retrieve storage account information from connection string.
             CloudStorageAccount storageAccount = CreateStorageAccountFromConnectionString(connectionString);
 

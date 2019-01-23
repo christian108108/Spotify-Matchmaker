@@ -17,13 +17,11 @@ namespace Sandbox
 
         static void Main(string[] args)
         {
-            KeyVaultHelper.LogIntoKeyVault();
             // string accessToken = KeyVaultHelper.GetSecret(bearerTokenIdentifier);
-            string connectionString = KeyVaultHelper.GetSecret("https://spotify-matchmaker.vault.azure.net/secrets/storage-connection-string/");
 
             // var storageAccount = AzureStorageHelper.CreateStorageAccountFromConnectionString(connectionString);
             
-            CloudTable table = AzureStorageHelper.GetOrCreateTableAsync("partyCodes", connectionString).Result;
+            CloudTable table = AzureStorageHelper.GetOrCreateTableAsync("partyCodes").Result;
 
             // Party exampleParty = new Party("ABCD");
             // exampleParty.Host = "accesstokenforthehost";
