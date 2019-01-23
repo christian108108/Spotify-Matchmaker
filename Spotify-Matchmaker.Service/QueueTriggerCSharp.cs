@@ -5,7 +5,8 @@ using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SpotifyMatchmaker.Models;
+using SpotifyMatchmaker.Library;
+using SpotifyMatchmaker.Library.Models;
 
 namespace SpotifyMatchmaker.Service
 {
@@ -20,11 +21,20 @@ namespace SpotifyMatchmaker.Service
             var jObject = JObject.Parse(myQueueItem);
             var jToken = jObject.GetValue("party_code");
 
-            string party_code = jToken.ToString();
+            string partyCode = jToken.ToString();
 
-            Party party = JsonConvert.DeserializeObject<Party>(myQueueItem);
+            KeyVaultHelper.LogIntoKeyVault();
+            var connectionString = KeyVaultHelper.GetSecret("https://spotify-matchmaker.vault.azure.net/secrets/storage-connection-string/");
 
-            ;
+            var table = AzureStorageHelper.GetOrCreateTableAsync("partyCodes", connectionString).Result;
+
+            var accessTokens = AzureStorageHelper.GetPartyFromPartyCode(partyCode, table).GetAccessTokens();
+
+            log.LogInformation($"Access token for party code: {partyCode}");
+            foreach(var token in accessTokens)
+            {
+                // log.LogInformation($"Access token: {token}");
+            }
 
 
             //take the party code and go to Azure Cosmos DB to lookup the party

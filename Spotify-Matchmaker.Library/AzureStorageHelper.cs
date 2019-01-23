@@ -41,6 +41,7 @@ namespace SpotifyMatchmaker.Library
         /// <summary>
         /// Create a table for the sample application to process messages in. 
         /// Will create the cloud table if it doesn't exist yet
+        /// Automatically logs into Key Vault
         /// </summary>
         /// <returns>A CloudTable object</returns>
         public static async Task<CloudTable> CreateTableAsync(string tableName)
@@ -76,7 +77,7 @@ namespace SpotifyMatchmaker.Library
         /// <param name="tableName">name of table you'd like to create or access</param>
         /// <param name="connectionString">connection string for Azure Storage account you'd like to access</param>
         /// <returns>Task containing a CloudTable object of the cloud table you created or accessed</returns>
-        public static async Task<CloudTable> CreateTableAsync(string tableName, string connectionString)
+        public static async Task<CloudTable> GetOrCreateTableAsync(string tableName, string connectionString)
         {
             // Retrieve storage account information from connection string.
             CloudStorageAccount storageAccount = CreateStorageAccountFromConnectionString(connectionString);
@@ -131,20 +132,55 @@ namespace SpotifyMatchmaker.Library
         /// <returns>Party object containing Spotify access tokens</returns>
         public static Party GetPartyFromPartyCode(string partyCode, CloudTable cloudTable)
         {
-            var tableOperation = TableOperation.Retrieve("parties", partyCode);
-            var result = cloudTable.Execute(tableOperation);
+            var retrieveOperation = TableOperation.Retrieve<Party>("parties", partyCode);
+            var result = cloudTable.Execute(retrieveOperation);
 
-            Party retrievedParty;
+            // if there's no entity in the table yet, create it!
+            if (result.HttpStatusCode == 404)
+            {
+                // return newly created party
+                return AzureStorageHelper.InsertOrMergeParty(new Party(partyCode), cloudTable);
+            }
+            return (Party)result.Result;
+        }
 
-            try
+        /// <summary>
+        /// Inserts new access token to new or existing party
+        /// </summary>
+        /// <param name="partyCode">Party code in which you'd like to insert the new access token</param>
+        /// <param name="cloudTable">Azure Cloud Table in which you'd like to insert new access token</param>
+        /// <param name="accessToken">Spotify access token for a user</param>
+        /// <returns>Newly modified party object</returns>
+        public static Party InsertAccessTokenToParty(string partyCode, CloudTable cloudTable, string accessToken)
+        {
+            var party = GetPartyFromPartyCode(partyCode, cloudTable);
+
+            if(String.IsNullOrEmpty(party.Host))
             {
-                retrievedParty = (Party)result.Result;
+                party.Host = accessToken;
             }
-            catch
+            else if(String.IsNullOrEmpty(party.Person2))
             {
-                retrievedParty = null;
+                party.Person2 = accessToken;
             }
-            return retrievedParty;
+            else if(String.IsNullOrEmpty(party.Person3))
+            {
+                party.Person3 = accessToken;
+            }
+            else if(String.IsNullOrEmpty(party.Person4))
+            {
+                party.Person4 = accessToken;
+            }
+            else if(String.IsNullOrEmpty(party.Person5))
+            {
+                party.Person5 = accessToken;
+            }
+            else
+            {
+                return null;
+            }
+
+            return InsertOrMergeParty(party, cloudTable);
         }
     }
 

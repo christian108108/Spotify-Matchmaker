@@ -147,12 +147,12 @@ namespace SpotifyMatchmaker.Library.Models
 
     public partial class TopTracks
     {
-        public static TopTracks FromJson(string json) => JsonConvert.DeserializeObject<TopTracks>(json, SpotifyMatchmaker.Library.Models.Converter.Settings);
+        public static TopTracks FromJson(string json) => JsonConvert.DeserializeObject<TopTracks>(json, SpotifyMatchmaker.Library.Models.TopTracksConverter.Settings);
     }
 
     public static class TopTracksSerialize
     {
-        public static string ToJson(this TopTracks self) => JsonConvert.SerializeObject(self, SpotifyMatchmaker.Library.Models.Converter.Settings);
+        public static string ToJson(this TopTracks self) => JsonConvert.SerializeObject(self, SpotifyMatchmaker.Library.Models.TopTracksConverter.Settings);
     }
 
     internal static class TopTracksConverter
