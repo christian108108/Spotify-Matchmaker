@@ -28,7 +28,7 @@ namespace SpotifyMatchmaker.Service
 
             var table = AzureStorageHelper.GetOrCreateTableAsync("partyCodes", connectionString).Result;
 
-            var accessTokens = AzureStorageHelper.GetPartyFromPartyCode(partyCode, table).GetAccessTokens();
+            var accessTokens = AzureStorageHelper.GetParty(partyCode, table).GetAccessTokens();
 
             log.LogInformation($"Access token for party code: {partyCode}");
             foreach(var token in accessTokens)

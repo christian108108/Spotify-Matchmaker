@@ -30,10 +30,18 @@ namespace Sandbox
 
             var accessTokens = AzureStorageHelper.GetParty("WXYZ", table).GetAccessTokens();
 
+            var topArtists = new List<IEnumerable<Artist>>();
+
             foreach(var token in accessTokens)
             {
-                var topArtists = SpotifyHelper.GetTopArtistsAsync(token).Result;
+                topArtists.Add(SpotifyHelper.GetTopArtistsAsync(token).Result);
             }
+
+            var commonArtists = SpotifyHelper.FindCommonArtists(topArtists.ElementAt(0), topArtists.ElementAt(1));
+            var commonGenres = SpotifyHelper.FindCommonGenres(topArtists.ElementAt(0), topArtists.ElementAt(1));
+
+            var difference = topArtists.ElementAt(0).Except(commonArtists);
+
             ;
 
             // var topArtistsA = SpotifyHelper.GetTopArtistsAsync(accessTokenA, "short_term").Result;
@@ -62,13 +70,13 @@ namespace Sandbox
 
             // var artistIDs = SpotifyHelper.SuggestArtistIDs(topArtistsA, topArtistsB).ToList();
 
-            // var playListId = SpotifyHelper.CreatePlaylistAsync(accessTokenB, "Spotify Matchmaker Playlist").Result;
+            var playListId = SpotifyHelper.CreatePlaylistAsync(accessTokens[0], "Spotify Matchmaker Playlist").Result;
 
-            // foreach(var id in artistIDs)
-            // {
-            //     var trackUris = SpotifyHelper.GetArtistsTopTracksAsync(accessTokenB, id).Result;
-            //     SpotifyHelper.AddSongsToPlaylistAsync(accessTokenB, playListId, trackUris);
-            // }
+            foreach(var artist in commonArtists)
+            {
+                var tracks = SpotifyHelper.GetArtistsTopTracksAsync(accessTokens[0], artist).Result;
+                SpotifyHelper.AddSongsToPlaylistAsync(accessTokens[0], playListId, tracks);
+            }
 
             ;
         }

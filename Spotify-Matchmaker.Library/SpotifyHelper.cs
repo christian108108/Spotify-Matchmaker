@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.KeyVault;
 using Microsoft.Azure.Services.AppAuthentication;
+using Newtonsoft.Json;
 using SpotifyMatchmaker.Library.Models;
 
 namespace SpotifyMatchmaker.Library
@@ -19,7 +20,6 @@ namespace SpotifyMatchmaker.Library
         /// Creates REST client, connects, and fetches top artists from a user
         /// </summary>
         /// <param name="accessToken">Required. A valid access token from the Spotify Accounts service</param>
-        /// <param name="time_range">Optional. Over what time frame the affinities are computed. Valid values: long_term (calculated from several years of data and including all new data as it becomes available), medium_term (approximately last 6 months), short_term (approximately last 4 weeks). Default: medium_term.</param>
         /// <returns>IEnumerable of Artists</returns>
         public static async Task<IEnumerable<Artist>> GetTopArtistsAsync(string accessToken)
         {
@@ -58,7 +58,7 @@ namespace SpotifyMatchmaker.Library
         /// </summary>
         /// <param name="accessToken">Required. A valid access token from the Spotify Accounts service</param>
         /// <param name="time_range">Optional. Over what time frame the affinities are computed. Valid values: long_term (calculated from several years of data and including all new data as it becomes available), medium_term (approximately last 6 months), short_term (approximately last 4 weeks). Default: medium_term.</param>
-        /// <returns>Array of Artists</returns>
+        /// <returns>IEnumerable of Artists</returns>
         private static async Task<IEnumerable<Artist>> GetTopArtistsAsync(string accessToken, 
                                                                 string time_range)
         {
@@ -116,6 +116,11 @@ namespace SpotifyMatchmaker.Library
             return publishedPlaylist.Id;
         }
 
+        /// <summary>
+        /// Gets user object based off access token
+        /// </summary>
+        /// <param name="accessToken">User's Spotify access token</param>
+        /// <returns>User object</returns>
         private static async Task<User> GetUserAsync(string accessToken)
         {
             client.DefaultRequestHeaders.Clear();
@@ -133,37 +138,33 @@ namespace SpotifyMatchmaker.Library
             return user;
         }
 
-        public static IEnumerable<string> FindCommonArtists(TopArtists artistsA, TopArtists artistsB)
+        /// <summary>
+        /// Given multiple IEnumerables of Artists, finds what they have in common
+        /// </summary>
+        /// <param name="artistsA">Top artists for person A</param>
+        /// <param name="artistsB">Top artists for person B</param>
+        /// <returns>IEnumerable of Artists with no duplicates</returns>
+        public static IEnumerable<Artist> FindCommonArtists(IEnumerable<Artist> artistsA, IEnumerable<Artist> artistsB)
         {
-            var hashSetA = new HashSet<string>();
-            var hashSetB = new HashSet<string>();
+            var commonArtists = new HashSet<Artist>();
 
-            foreach(var a in artistsA.Artists)
-            {
-                hashSetA.Add(a.Name);
-            }
+            commonArtists.UnionWith(artistsA);
+            commonArtists.IntersectWith(artistsB);
 
-            foreach(var a in artistsB.Artists)
-            {
-                hashSetB.Add(a.Name);
-            }
-
-            return hashSetA.Intersect(hashSetB);
+            return commonArtists;
         }
 
-        public static IEnumerable<string> FindCommonGenres(TopArtists artistsA, TopArtists artistsB)
+        public static IEnumerable<string> FindCommonGenres(IEnumerable<Artist> artistsA, IEnumerable<Artist> artistsB)
         {
             var genresA = new HashSet<string>();
             var genresB = new HashSet<string>();
 
-            var commonGenres = new HashSet<string>();
-
-            foreach(Artist a in artistsA.Artists)
+            foreach(Artist a in artistsA)
             {
                 genresA.UnionWith(a.Genres);
             }
 
-            foreach(Artist a in artistsB.Artists)
+            foreach(Artist a in artistsB)
             {
                 genresB.UnionWith(a.Genres);
             }
@@ -171,50 +172,25 @@ namespace SpotifyMatchmaker.Library
             return genresA.Intersect(genresB);
         }
 
-        public static IEnumerable<string> SuggestArtists(TopArtists artistsA, TopArtists artistsB)
+        public static IEnumerable<Artist> SuggestArtists(IEnumerable<Artist> artistsA, IEnumerable<Artist> artistsB)
         {
             var commonGenres = SpotifyHelper.FindCommonGenres(artistsA, artistsB);
 
-            var suggestedArtists = new HashSet<string>();
+            var suggestedArtists = new HashSet<Artist>();
 
-            foreach(Artist a in artistsA.Artists)
+            foreach(Artist a in artistsA)
             {
                 if (a.Genres.Intersect(commonGenres).Any())
                 {
-                    suggestedArtists.Add(a.Name);
+                    suggestedArtists.Add(a);
                 }
             }
 
-            foreach(Artist a in artistsB.Artists)
+            foreach(Artist a in artistsB)
             {
                 if(a.Genres.Intersect(commonGenres).Any())
                 {
-                    suggestedArtists.Add(a.Name);
-                }
-            }
-
-            return suggestedArtists;
-        }
-
-        public static IEnumerable<string> SuggestArtistIDs(TopArtists artistsA, TopArtists artistsB)
-        {
-            var commonGenres = SpotifyHelper.FindCommonGenres(artistsA, artistsB);
-
-            var suggestedArtists = new HashSet<string>();
-
-            foreach(Artist a in artistsA.Artists)
-            {
-                if (a.Genres.Intersect(commonGenres).Any())
-                {
-                    suggestedArtists.Add(a.Id);
-                }
-            }
-
-            foreach(Artist a in artistsB.Artists)
-            {
-                if(a.Genres.Intersect(commonGenres).Any())
-                {
-                    suggestedArtists.Add(a.Id);
+                    suggestedArtists.Add(a);
                 }
             }
 
@@ -227,7 +203,7 @@ namespace SpotifyMatchmaker.Library
         /// <param name="accessToken">user's access token</param>
         /// <param name="artistId">artist's Spotify ID</param>
         /// <returns>IEnumerable of song URIs</returns>
-        public static async Task<IEnumerable<string>> GetArtistsTopTracksAsync(string accessToken, string artistId)
+        public static async Task<IEnumerable<Track>> GetArtistsTopTracksAsync(string accessToken, Artist artist)
         {
             try
             {
@@ -238,28 +214,21 @@ namespace SpotifyMatchmaker.Library
                 client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
 
 
-                var stringTask = client.GetStringAsync($"https://api.spotify.com/v1/artists/{artistId}/top-tracks?country=US");
+                var stringTask = client.GetStringAsync($"https://api.spotify.com/v1/artists/{artist.Id}/top-tracks?country=US");
 
                 var msg = await stringTask;
 
-                var tracks = Tracks.FromJson(msg);
+                var artistTopTracks = ArtistTopTracks.FromJson(msg);
 
-                var trackUris = new HashSet<string>();
-
-                foreach(Track t in tracks.TracksTracks)
-                {
-                    trackUris.Add(t.Uri);
-                }
-
-                return trackUris;
+                return artistTopTracks.Tracks;
             }
             catch
             {
-                return new List<string>();
+                return null;
             }
         }
 
-        public static async void AddSongsToPlaylistAsync(string accessToken, string playlistId, IEnumerable<string> songURIs )
+        public static async void AddSongsToPlaylistAsync(string accessToken, string playlistId, IEnumerable<Track> tracks )
         {
             try
             {
@@ -271,11 +240,18 @@ namespace SpotifyMatchmaker.Library
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
 
-                var stringContent = new StringContent("", Encoding.UTF8, "application/json");
+                var uris = new HashSet<string>();
 
-                var songURIsString = String.Join(",", songURIs);
+                foreach(var t in tracks)
+                {
+                    uris.Add(t.Uri);
+                }
 
-                var response = await client.PostAsync($"https://api.spotify.com/v1/playlists/{playlistId}/tracks?uris={songURIsString}", stringContent);
+                string json = JsonConvert.SerializeObject(uris, Formatting.Indented);
+
+                var stringContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync($"https://api.spotify.com/v1/playlists/{playlistId}/tracks", stringContent);
             }
             catch
             {
