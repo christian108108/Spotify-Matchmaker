@@ -18,7 +18,7 @@ namespace SpotifyMatchmaker.Library.Models
     public partial class TopTracks
     {
         [JsonProperty("items")]
-        public Item[] Items { get; set; }
+        public Track[] Tracks { get; set; }
 
         [JsonProperty("total")]
         public long Total { get; set; }
@@ -30,7 +30,7 @@ namespace SpotifyMatchmaker.Library.Models
         public long Offset { get; set; }
 
         [JsonProperty("previous")]
-        public object Previous { get; set; }
+        public Uri Previous { get; set; }
 
         [JsonProperty("href")]
         public Uri Href { get; set; }
@@ -39,13 +39,16 @@ namespace SpotifyMatchmaker.Library.Models
         public Uri Next { get; set; }
     }
 
-    public partial class Item
+    public partial class Track
     {
         [JsonProperty("album")]
         public Album Album { get; set; }
 
         [JsonProperty("artists")]
         public Artist[] Artists { get; set; }
+
+        [JsonProperty("available_markets")]
+        public string[] AvailableMarkets { get; set; }
 
         [JsonProperty("disc_number")]
         public long DiscNumber { get; set; }
@@ -100,6 +103,9 @@ namespace SpotifyMatchmaker.Library.Models
 
         [JsonProperty("artists")]
         public Artist[] Artists { get; set; }
+
+        [JsonProperty("available_markets")]
+        public string[] AvailableMarkets { get; set; }
 
         [JsonProperty("external_urls")]
         public ExternalUrls ExternalUrls { get; set; }

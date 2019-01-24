@@ -21,7 +21,7 @@ namespace SpotifyMatchmaker.Library.Models
         public bool? Collaborative { get; set; }
 
         [JsonProperty("description")]
-        public object Description { get; set; }
+        public string Description { get; set; }
 
         [JsonProperty("external_urls")]
         public ExternalUrls ExternalUrls { get; set; }
@@ -36,7 +36,7 @@ namespace SpotifyMatchmaker.Library.Models
         public string Id { get; set; }
 
         [JsonProperty("images")]
-        public object[] Images { get; set; }
+        public Image[] Images { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -51,7 +51,7 @@ namespace SpotifyMatchmaker.Library.Models
         public string SnapshotId { get; set; }
 
         [JsonProperty("tracks")]
-        public Tracks Tracks { get; set; }
+        public ContainingTracks ContainingTracks { get; set; }
 
         [JsonProperty("type")]
         public string Type { get; set; }
@@ -78,25 +78,25 @@ namespace SpotifyMatchmaker.Library.Models
         public string Uri { get; set; }
     }
 
-    public partial class Tracks
+    public partial class ContainingTracks
     {
         [JsonProperty("href")]
         public Uri Href { get; set; }
 
         [JsonProperty("items")]
-        public object[] Items { get; set; }
+        public Track[] Tracks { get; set; }
 
         [JsonProperty("limit")]
         public long Limit { get; set; }
 
         [JsonProperty("next")]
-        public object Next { get; set; }
+        public Uri Next { get; set; }
 
         [JsonProperty("offset")]
         public long Offset { get; set; }
 
         [JsonProperty("previous")]
-        public object Previous { get; set; }
+        public Uri Previous { get; set; }
 
         [JsonProperty("total")]
         public long Total { get; set; }

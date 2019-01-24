@@ -31,7 +31,7 @@ namespace SpotifyMatchmaker.Library.Models
         public long Offset { get; set; }
 
         [JsonProperty("previous")]
-        public object Previous { get; set; }
+        public Uri Previous { get; set; }
 
         [JsonProperty("href")]
         public Uri Href { get; set; }
@@ -65,6 +65,7 @@ namespace SpotifyMatchmaker.Library.Models
         [JsonProperty("images")]
         public Image[] Images { get; set; }
 
+        [MemberwiseEqualityIgnore]
         [JsonProperty("name")]
         public string Name { get; set; }
 
@@ -90,7 +91,7 @@ namespace SpotifyMatchmaker.Library.Models
     public partial class Followers
     {
         [JsonProperty("href")]
-        public object Href { get; set; }
+        public Uri Href { get; set; }
 
         [JsonProperty("total")]
         public long Total { get; set; }
