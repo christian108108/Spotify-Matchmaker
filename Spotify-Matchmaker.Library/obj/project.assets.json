@@ -2,6 +2,18 @@
   "version": 3,
   "targets": {
     ".NETStandard,Version=v2.0": {
+      "Equ/2.0.2": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1"
+        },
+        "compile": {
+          "lib/netstandard1.5/Equ.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.5/Equ.dll": {}
+        }
+      },
       "Microsoft.Azure.Cosmos.Table/0.10.1-preview": {
         "type": "package",
         "dependencies": {
@@ -1885,6 +1897,18 @@
     }
   },
   "libraries": {
+    "Equ/2.0.2": {
+      "sha512": "hRIBSIlu0VLK5TDmQmOPp2+QfaJg/lwI5NIAu+X4xiG+jfqfIx/mG7/8gjmrhA9POLIfZ9fkAjMZOMOKH0F35w==",
+      "type": "package",
+      "path": "equ/2.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "equ.2.0.2.nupkg.sha512",
+        "equ.nuspec",
+        "lib/netstandard1.5/Equ.dll"
+      ]
+    },
     "Microsoft.Azure.Cosmos.Table/0.10.1-preview": {
       "sha512": "231ljxqC+OA5OvbVGW+bQj4Th32FJs8LEQPASdt0LV1PHpCNdFN3/vcaRfaPuo+R1192fYJ6HRfOktnpjFKTJw==",
       "type": "package",
@@ -6434,6 +6458,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.0": [
+      "Equ >= 2.0.2",
       "Microsoft.Azure.Cosmos.Table >= 0.10.1-preview",
       "Microsoft.Azure.KeyVault >= 3.0.2",
       "Microsoft.Azure.KeyVault.Core >= 3.0.1",
@@ -6484,6 +6509,10 @@
     "frameworks": {
       "netstandard2.0": {
         "dependencies": {
+          "Equ": {
+            "target": "Package",
+            "version": "[2.0.2, )"
+          },
           "Microsoft.Azure.Cosmos.Table": {
             "target": "Package",
             "version": "[0.10.1-preview, )"

@@ -23,17 +23,17 @@ namespace Sandbox
             
             CloudTable table = AzureStorageHelper.GetOrCreateTableAsync("partyCodes").Result;
 
-            // Party exampleParty = new Party("ABCD");
-            // exampleParty.Host = "accesstokenforthehost";
-            // exampleParty.Person2 = "accesstokenforperson2";
-            // exampleParty.Person3 = "accesstokenforperson3";
-            // exampleParty.Person4 = "accesstokenforperson4";
-            // exampleParty.Person5 = "accesstokenforperson5";
+            // AzureStorageHelper.DeleteParty("WXYZ", table);
 
             // AzureStorageHelper.InsertOrMergeParty(new Party("IYEY"), table);
-            // AzureStorageHelper.InsertAccessTokenToParty("IUYW", table, "ree");
+            // AzureStorageHelper.InsertAccessTokenToParty("WXYZ", table, accessTokenA);
 
-            var accessTokens = AzureStorageHelper.GetPartyFromPartyCode("TEST", table).GetAccessTokens();
+            var accessTokens = AzureStorageHelper.GetParty("WXYZ", table).GetAccessTokens();
+
+            foreach(var token in accessTokens)
+            {
+                var topArtists = SpotifyHelper.GetTopArtistsAsync(token).Result;
+            }
             ;
 
             // var topArtistsA = SpotifyHelper.GetTopArtistsAsync(accessTokenA, "short_term").Result;

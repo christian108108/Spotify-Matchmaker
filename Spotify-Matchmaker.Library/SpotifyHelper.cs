@@ -20,24 +20,72 @@ namespace SpotifyMatchmaker.Library
         /// </summary>
         /// <param name="accessToken">Required. A valid access token from the Spotify Accounts service</param>
         /// <param name="time_range">Optional. Over what time frame the affinities are computed. Valid values: long_term (calculated from several years of data and including all new data as it becomes available), medium_term (approximately last 6 months), short_term (approximately last 4 weeks). Default: medium_term.</param>
-        /// <returns>TopArtists object</returns>
-        public static async Task<TopArtists> GetTopArtistsAsync(string accessToken, 
-                                                                string time_range = "medium_term")
+        /// <returns>IEnumerable of Artists</returns>
+        public static async Task<IEnumerable<Artist>> GetTopArtistsAsync(string accessToken)
         {
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
-            // client.DefaultRequestHeaders.Add("time_range", $"{time_range}");
 
-            var stringTask = client.GetStringAsync($"https://api.spotify.com/v1/me/top/artists?time_range={time_range}");
+            var result = client.GetStringAsync($"https://api.spotify.com/v1/me/top/artists?time_range=long_term&limit=50").Result;
 
-            var msg = await stringTask;
+            var topArtists = TopArtists.FromJson(result);
 
-            var topArtists = TopArtists.FromJson(msg);
+            var allTopArtists = new HashSet<Artist>();
 
-            return topArtists;
+            allTopArtists.UnionWith(topArtists.Artists);
+
+            while(topArtists.Next != null)
+            {
+                result = await client.GetStringAsync(topArtists.Next);
+
+                topArtists = TopArtists.FromJson(result);
+
+                allTopArtists.UnionWith(topArtists.Artists);
+            }
+
+            allTopArtists.UnionWith(await GetTopArtistsAsync(accessToken, "medium_term"));
+            allTopArtists.UnionWith(await GetTopArtistsAsync(accessToken, "short_term"));
+
+
+            return allTopArtists;
+        }
+
+        /// <summary>
+        /// Creates REST client, connects, and fetches top artists from a user
+        /// </summary>
+        /// <param name="accessToken">Required. A valid access token from the Spotify Accounts service</param>
+        /// <param name="time_range">Optional. Over what time frame the affinities are computed. Valid values: long_term (calculated from several years of data and including all new data as it becomes available), medium_term (approximately last 6 months), short_term (approximately last 4 weeks). Default: medium_term.</param>
+        /// <returns>Array of Artists</returns>
+        private static async Task<IEnumerable<Artist>> GetTopArtistsAsync(string accessToken, 
+                                                                string time_range)
+        {
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
+
+            var result = client.GetStringAsync($"https://api.spotify.com/v1/me/top/artists?time_range={time_range}&limit=50").Result;
+
+            var topArtists = TopArtists.FromJson(result);
+
+            var allTopArtists = new HashSet<Artist>();
+
+            allTopArtists.UnionWith(topArtists.Artists);
+
+            while(topArtists.Next != null)
+            {
+                result = await client.GetStringAsync(topArtists.Next);
+
+                topArtists = TopArtists.FromJson(result);
+
+                allTopArtists.UnionWith(topArtists.Artists);
+            }
+
+            return allTopArtists;
         }
 
         public static async Task<string> CreatePlaylistAsync(string accessToken, string playListName)
@@ -83,16 +131,6 @@ namespace SpotifyMatchmaker.Library
             var user = User.FromJson(msg);
 
             return user;
-        }
-
-        public static void PrintTopArtists(TopArtists artists)
-        {
-            foreach(var a in artists.Artists)
-            {
-                Console.Write($"You like listening to {a.Name}! Their popularity score is {a.Popularity}. Genres: ");
-            
-                Console.WriteLine(String.Join(", ", a.Genres));
-            }
         }
 
         public static IEnumerable<string> FindCommonArtists(TopArtists artistsA, TopArtists artistsB)

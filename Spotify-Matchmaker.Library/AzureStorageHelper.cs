@@ -105,7 +105,7 @@ namespace SpotifyMatchmaker.Library
         /// <param name="party">Party object that contains Spotify access tokens</param>
         /// <param name="cloudTable">Cloud table to which you'd like to insert the party</param>
         /// <returns>Newly inserted party</returns>
-        public static Party InsertOrMergeParty(Party party, CloudTable cloudTable)
+        private static Party InsertOrMergeParty(Party party, CloudTable cloudTable)
         {
             var tableOperation = TableOperation.InsertOrMerge(party);
             var result = cloudTable.Execute(tableOperation);
@@ -129,7 +129,7 @@ namespace SpotifyMatchmaker.Library
         /// <param name="partyCode">Unique identifier for the party you'd like to access</param>
         /// <param name="cloudTable">Cloud table from which you'd like to fetch the party</param>
         /// <returns>Party object containing Spotify access tokens</returns>
-        public static Party GetPartyFromPartyCode(string partyCode, CloudTable cloudTable)
+        public static Party GetParty(string partyCode, CloudTable cloudTable)
         {
             var retrieveOperation = TableOperation.Retrieve<Party>("parties", partyCode);
             var result = cloudTable.Execute(retrieveOperation);
@@ -144,15 +144,15 @@ namespace SpotifyMatchmaker.Library
         }
 
         /// <summary>
-        /// Inserts new access token to new or existing party
+        /// Inserts new access token to party if it exists. Creates new party if it doesn't exist.
         /// </summary>
-        /// <param name="partyCode">Party code in which you'd like to insert the new access token</param>
-        /// <param name="cloudTable">Azure Cloud Table in which you'd like to insert new access token</param>
+        /// <param name="partyCode">Unique party code</param>
+        /// <param name="cloudTable">Azure Cloud Table that contains the party</param>
         /// <param name="accessToken">Spotify access token for a user</param>
         /// <returns>Newly modified party object</returns>
         public static Party InsertAccessTokenToParty(string partyCode, CloudTable cloudTable, string accessToken)
         {
-            var party = GetPartyFromPartyCode(partyCode, cloudTable);
+            var party = GetParty(partyCode, cloudTable);
 
             if(String.IsNullOrEmpty(party.Host))
             {
@@ -180,6 +180,17 @@ namespace SpotifyMatchmaker.Library
             }
 
             return InsertOrMergeParty(party, cloudTable);
+        }
+
+        public static void DeleteParty(string partyCode, CloudTable cloudTable)
+        {
+            var party = GetParty(partyCode, cloudTable);
+
+            var tableOperation = TableOperation.Delete(party);
+
+            var result = cloudTable.Execute(tableOperation);
+
+            return;
         }
     }
 

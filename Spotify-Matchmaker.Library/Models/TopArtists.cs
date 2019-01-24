@@ -14,6 +14,7 @@ namespace SpotifyMatchmaker.Library.Models
     using System.Globalization;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
+    using Equ;
 
     public partial class TopArtists
     {
@@ -39,35 +40,43 @@ namespace SpotifyMatchmaker.Library.Models
         public Uri Next { get; set; }
     }
 
-    public partial class Artist
+    public partial class Artist : MemberwiseEquatable<Artist>
     {
+        [MemberwiseEqualityIgnore]
         [JsonProperty("external_urls")]
         public ExternalUrls ExternalUrls { get; set; }
 
+        [MemberwiseEqualityIgnore]
         [JsonProperty("followers")]
         public Followers Followers { get; set; }
 
+        [MemberwiseEqualityIgnore]
         [JsonProperty("genres")]
         public string[] Genres { get; set; }
 
+        [MemberwiseEqualityIgnore]
         [JsonProperty("href")]
         public Uri Href { get; set; }
 
         [JsonProperty("id")]
         public string Id { get; set; }
 
+        [MemberwiseEqualityIgnore]
         [JsonProperty("images")]
         public Image[] Images { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
 
+        [MemberwiseEqualityIgnore]
         [JsonProperty("popularity")]
         public long Popularity { get; set; }
 
+        [MemberwiseEqualityIgnore]
         [JsonProperty("type")]
         public TypeEnum Type { get; set; }
 
+        [MemberwiseEqualityIgnore]
         [JsonProperty("uri")]
         public string Uri { get; set; }
     }
