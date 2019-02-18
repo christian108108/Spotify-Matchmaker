@@ -7,7 +7,7 @@ using SpotifyMatchmaker.Library.Models;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Table;
 
-namespace Sandbox
+namespace SpotifyMatchmaker.Sandbox
 {
     public class Program
     {
