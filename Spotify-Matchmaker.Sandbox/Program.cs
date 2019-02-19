@@ -37,8 +37,8 @@ namespace SpotifyMatchmaker.Sandbox
                 topArtists.Add(SpotifyHelper.GetTopArtistsAsync(token).Result);
             }
 
-            var commonArtists = SpotifyHelper.FindCommonArtists(topArtists.ElementAt(0), topArtists.ElementAt(1));
-            var commonGenres = SpotifyHelper.FindCommonGenres(topArtists.ElementAt(0), topArtists.ElementAt(1));
+            var commonArtists = Matchmaker.FindCommonArtists(topArtists.ElementAt(0), topArtists.ElementAt(1));
+            var commonGenres = Matchmaker.FindCommonGenres(topArtists.ElementAt(0), topArtists.ElementAt(1));
 
             var difference = topArtists.ElementAt(0).Except(commonArtists);
 
